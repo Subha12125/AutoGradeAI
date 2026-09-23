@@ -11,6 +11,9 @@
     "dev": "node --watch src/server.js",
     "test": "node --require ./tests/setup.js --test"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "@google/genai": "^1.0.0",
     "@supabase/supabase-js": "^2.49.4",

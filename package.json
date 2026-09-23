@@ -2,6 +2,8 @@
   "name": "evalify-ai",
   "version": "1.0.0",
   "scripts": {
+    "start": "npm start --prefix server",
+    "build": "npm install --prefix server",
     "install:all": "npm --prefix client install && npm --prefix server install",
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\""
   },

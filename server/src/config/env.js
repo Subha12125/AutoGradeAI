@@ -5,7 +5,6 @@ const path = require('path');
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
 const required = [
-  'PORT',
   'GEMINI_API_KEY',
   'SUPABASE_URL',
   'SUPABASE_SERVICE_KEY',
