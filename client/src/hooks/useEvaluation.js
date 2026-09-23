@@ -63,6 +63,8 @@ export const useEvaluation = () => {
     isEvaluating,
     loading: isEvaluating,
     error,
+    setProgress,
+    setEvaluations,
     startEvaluation,
     fetchResults,
     fetchStatus,

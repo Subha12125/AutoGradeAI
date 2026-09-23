@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../hooks/useAuth';
-import evalifyLogo from '../assets/Evalify ai.png';
+import autoGradeLogo from '../assets/AutoGrade Ai.png';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -30,11 +30,10 @@ const Signup = () => {
     }
 
     setLoading(true);
-    addToast('Creating your account...', 'info');
     try {
       await registerUser({
-        name: formData.name,
-        email: formData.email,
+        name: formData.name.trim(),
+        email: formData.email.trim(),
         password: formData.password
       });
       addToast('Registration successful', 'success');
@@ -46,8 +45,6 @@ const Signup = () => {
       setLoading(false);
     }
   };
-
-
 
   return (
     <div className="bg-background text-on-surface min-h-screen flex flex-col items-center justify-center relative overflow-hidden py-12">
@@ -62,8 +59,8 @@ const Signup = () => {
 
       <main className="w-full max-w-md px-6 z-10">
         <div className="flex flex-col items-center mb-8">
-          <img src={evalifyLogo} alt="Evalify AI Logo" className="w-32 h-32 mb-6 object-contain drop-shadow-lg" />
-          <h1 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2 font-headline">Evalify AI</h1>
+          <img src={autoGradeLogo} alt="AutoGrade Ai Logo" className="w-32 h-32 mb-6 object-contain drop-shadow-lg" />
+          <h1 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2 font-headline">AutoGrade Ai</h1>
           <p className="text-on-surface-variant font-medium text-sm text-center">Join the future of academic assessment</p>
         </div>
 
@@ -117,7 +114,7 @@ const Signup = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors"
                 >
-                  <span className="material-symbols-outlined text-lg">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                  <i className={`text-lg ${showPassword ? 'ri-eye-off-line' : 'ri-eye-line'}`} />
                 </button>
               </div>
             </div>
@@ -141,23 +138,24 @@ const Signup = () => {
                 type="submit"
               >
                 {loading ? (
-                  <span className="material-symbols-outlined text-lg animate-spin">progress_activity</span>
+                  <>
+                    <i className="ri-loader-4-line text-lg animate-spin" />
+                    <span>Creating account...</span>
+                  </>
                 ) : (
                   <>
                     <span>Create Account</span>
-                    <span className="material-symbols-outlined text-lg">person_add</span>
+                    <i className="ri-user-add-line text-lg" />
                   </>
                 )}
               </button>
             </div>
           </form>
-
-
         </div>
 
         <div className="mt-8 text-center">
           <p className="text-xs text-on-surface-variant">
-            Already have an account? <Link to="/login" className="text-primary font-bold hover:underline">Sign In</Link>
+            Already have an ID and password? <Link to="/login" className="text-primary font-bold hover:underline">Log In</Link>
           </p>
         </div>
       </main>

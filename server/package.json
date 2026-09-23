@@ -1,7 +1,7 @@
 {
   "name": "evalify-ai-server",
   "version": "1.0.0",
-  "description": "Backend server for Evalify AI - AI-Powered Exam Evaluator",
+  "description": "Backend server for AutoGrade Ai - AI-Powered Exam Evaluator",
   "license": "MIT",
   "author": "",
   "type": "commonjs",

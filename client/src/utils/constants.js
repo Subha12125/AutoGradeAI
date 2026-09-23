@@ -1,4 +1,4 @@
-export const APP_NAME = 'Evalify AI';
+export const APP_NAME = 'AutoGrade Ai';
 
 export const EXAM_STATUS = {
   PENDING: 'pending',

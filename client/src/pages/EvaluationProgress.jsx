@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEvaluation } from '../hooks/useEvaluation';
 import { useExam } from '../hooks/useExam';
+
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const EvaluationProgress = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const examId = searchParams.get('examId');
   
-  const { evaluations, progress, fetchStatus } = useEvaluation();
+  const { evaluations, progress, fetchStatus, setProgress, setEvaluations } = useEvaluation();
   const { exams, fetchExams } = useExam();
   const [polling, setPolling] = useState(true);
+  const [sseConnected, setSseConnected] = useState(false);
+  const [liveStudents, setLiveStudents] = useState([]);
+  const eventSourceRef = useRef(null);
 
   // Fetch exams to find the latest evaluating one if no examId param
   useEffect(() => {
@@ -20,9 +25,73 @@ const EvaluationProgress = () => {
   // Determine which exam to track
   const targetExamId = examId || exams.find(e => e.status === 'evaluating' || e.status === 'processing')?.id;
 
-  // Poll for evaluation status
+  // SSE connection for real-time progress
   useEffect(() => {
     if (!targetExamId) return;
+
+    // Get auth token for SSE connection
+    const token = localStorage.getItem('auth_token') || localStorage.getItem('token');
+    if (!token) return;
+
+    const url = `${API_BASE}/evaluate/stream/${targetExamId}?token=${token}`;
+    const eventSource = new EventSource(url);
+    eventSourceRef.current = eventSource;
+
+    eventSource.onopen = () => {
+      setSseConnected(true);
+      setPolling(false); // SSE is connected, stop polling
+    };
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        if (data.type === 'connected') {
+          setSseConnected(true);
+          return;
+        }
+
+        // Update progress
+        if (data.progress !== undefined) {
+          setProgress(data.progress);
+        }
+
+        // Add student to live list
+        if (data.student && (data.type === 'student_complete' || data.type === 'student_failed')) {
+          setLiveStudents(prev => {
+            // Avoid duplicates
+            const exists = prev.find(s => s.rollNumber === data.student.rollNumber);
+            if (exists) return prev;
+            return [...prev, data.student];
+          });
+        }
+
+        // Batch complete
+        if (data.type === 'batch_complete') {
+          setPolling(false);
+          // Refresh full status from API
+          fetchStatus(targetExamId);
+        }
+      } catch (err) {
+        console.warn('SSE parse error:', err);
+      }
+    };
+
+    eventSource.onerror = () => {
+      setSseConnected(false);
+      setPolling(true); // Fall back to polling
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+      eventSourceRef.current = null;
+    };
+  }, [targetExamId, setProgress, fetchStatus]);
+
+  // Fallback polling (only when SSE is not connected)
+  useEffect(() => {
+    if (!targetExamId || !polling || sseConnected) return;
 
     const poll = async () => {
       const data = await fetchStatus(targetExamId);
@@ -32,12 +101,15 @@ const EvaluationProgress = () => {
     };
 
     poll();
-    const interval = polling ? setInterval(poll, 5000) : null;
-    return () => { if (interval) clearInterval(interval); };
-  }, [targetExamId, polling, fetchStatus]);
+    const interval = setInterval(poll, 3000); // Poll every 3s as fallback
+    return () => clearInterval(interval);
+  }, [targetExamId, polling, sseConnected, fetchStatus]);
 
   const currentExam = exams.find(e => e.id === targetExamId);
   const isComplete = progress >= 100;
+
+  // Merge live SSE students with DB evaluations
+  const displayStudents = liveStudents.length > 0 ? liveStudents : evaluations;
 
   return (
     <section className="relative overflow-hidden min-h-full">
@@ -56,6 +128,13 @@ const EvaluationProgress = () => {
               ? `Evaluating ${currentExam.subject} • ${currentExam.total_marks} marks`
               : 'AI grading engines are processing student submissions.'}
           </p>
+          {/* SSE connection indicator */}
+          <div className="flex items-center justify-center gap-1.5 mt-3">
+            <span className={`w-1.5 h-1.5 rounded-full ${sseConnected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`}></span>
+            <span className="text-[10px] text-outline">
+              {sseConnected ? 'Live updates connected' : 'Polling for updates...'}
+            </span>
+          </div>
         </div>
 
         {/* Central Progress Card */}
@@ -94,7 +173,7 @@ const EvaluationProgress = () => {
             <div className="space-y-4 text-center">
               <div className="flex items-center gap-2 justify-center">
                 {isComplete ? (
-                  <span className="material-symbols-outlined text-emerald-500">check_circle</span>
+                  <i className="ri-checkbox-circle-fill text-emerald-500 text-xl"></i>
                 ) : (
                   <span className="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
                 )}
@@ -129,7 +208,7 @@ const EvaluationProgress = () => {
             {/* Step 1 */}
             <div className="flex flex-col items-center gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md">
-                <span className="material-symbols-outlined text-xs sm:text-sm">check</span>
+                <i className="ri-check-line text-xs sm:text-sm"></i>
               </div>
               <span className="text-[10px] sm:text-xs font-bold text-on-surface">Upload</span>
             </div>
@@ -137,7 +216,7 @@ const EvaluationProgress = () => {
             {/* Step 2 */}
             <div className="flex flex-col items-center gap-3">
               <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md ${progress > 0 ? 'bg-primary text-on-primary' : 'bg-surface-container-high text-on-surface-variant'}`}>
-                <span className="material-symbols-outlined text-xs sm:text-sm">{progress > 0 ? 'check' : 'hourglass_top'}</span>
+                <i className={`${progress > 0 ? 'ri-check-line' : 'ri-time-line'} text-xs sm:text-sm`}></i>
               </div>
               <span className="text-[10px] sm:text-xs font-bold text-on-surface">Processing</span>
             </div>
@@ -149,9 +228,7 @@ const EvaluationProgress = () => {
                 progress > 0 ? 'bg-primary-container text-primary border-4 border-surface ring-4 ring-primary/20' : 
                 'bg-surface-container-high text-on-surface-variant'
               }`}>
-                <span className={`material-symbols-outlined text-xs sm:text-sm ${!isComplete && progress > 0 ? 'animate-spin' : ''}`}>
-                  {isComplete ? 'check' : 'cyclone'}
-                </span>
+                <i className={`${isComplete ? 'ri-check-line' : 'ri-brain-line'} text-xs sm:text-sm ${!isComplete && progress > 0 ? 'animate-spin' : ''}`}></i>
               </div>
               <span className={`text-[10px] sm:text-xs font-bold ${progress > 0 && !isComplete ? 'text-primary' : 'text-on-surface'}`}>Evaluation</span>
             </div>
@@ -159,7 +236,7 @@ const EvaluationProgress = () => {
             {/* Step 4 */}
             <div className={`flex flex-col items-center gap-3 ${isComplete ? '' : 'opacity-30'}`}>
               <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${isComplete ? 'bg-emerald-500 text-white shadow-md' : 'bg-surface-container-high text-on-surface-variant'}`}>
-                <span className="material-symbols-outlined text-xs sm:text-sm">done_all</span>
+                <i className="ri-check-double-line text-xs sm:text-sm"></i>
               </div>
               <span className="text-[10px] sm:text-xs font-bold text-on-surface-variant">Completed</span>
             </div>
@@ -167,21 +244,21 @@ const EvaluationProgress = () => {
         </div>
 
         {/* Evaluated Students List */}
-        {evaluations.length > 0 && (
+        {displayStudents.length > 0 && (
           <div className="mt-12 sm:mt-20">
             <div className="bg-surface-container-lowest rounded-xl p-6 sm:p-8 border-l-4 border-primary atmospheric-shadow border border-outline-variant/10">
               <h3 className="text-[10px] sm:text-sm font-black uppercase tracking-widest text-primary mb-6 font-headline">
-                Evaluated Students ({evaluations.length})
+                Evaluated Students ({displayStudents.length})
               </h3>
               <div className="space-y-4">
-                {evaluations.map((ev, idx) => (
-                  <div key={ev.id || idx} className="flex justify-between items-center">
+                {displayStudents.map((ev, idx) => (
+                  <div key={ev.id || ev.rollNumber || idx} className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
-                        {(ev.studentName || 'S')[0]}
+                        {(ev.studentName || ev.name || 'S')[0]}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-on-surface">{ev.studentName}</p>
+                        <p className="text-sm font-bold text-on-surface">{ev.studentName || ev.name}</p>
                         <p className="text-[10px] text-outline">{ev.rollNumber}</p>
                       </div>
                     </div>
@@ -207,7 +284,7 @@ const EvaluationProgress = () => {
         {/* No exam found state */}
         {!targetExamId && !polling && (
           <div className="mt-12 text-center bg-surface-container-lowest rounded-xl p-12 atmospheric-shadow">
-            <span className="material-symbols-outlined text-outline text-4xl mb-3 block">info</span>
+            <i className="ri-information-line text-outline text-4xl mb-3 block"></i>
             <p className="text-sm text-on-surface-variant mb-4">No active evaluations found</p>
             <button 
               onClick={() => navigate('/create-exam')}

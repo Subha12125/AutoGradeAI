@@ -13,7 +13,7 @@ export const resultsService = {
 
   exportResults: async (examId, format = 'csv') => {
     const response = await api.get(`/results/${examId}/export/${format}`, {
-      responseType: format === 'csv' ? 'blob' : 'json'
+      responseType: 'blob'
     });
     return response.data;
   },

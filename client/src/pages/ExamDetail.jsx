@@ -41,17 +41,28 @@ const ExamDetail = () => {
       const data = await resultsService.exportResults(id, format);
       
       if (format === 'csv') {
-        const blob = new Blob([data], { type: 'text/csv' });
+        // data is already a Blob from the API
+        const blob = data instanceof Blob ? data : new Blob([data], { type: 'text/csv' });
+        
+        // Check if the server returned an error JSON instead of CSV
+        if (blob.type && blob.type.includes('application/json')) {
+          const text = await blob.text();
+          const errorData = JSON.parse(text);
+          throw new Error(errorData.error || 'Export failed');
+        }
+
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = `results-${id}.csv`;
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
         URL.revokeObjectURL(url);
       }
       addToast('Export downloaded!', 'success');
     } catch (err) {
-      addToast('Export failed', 'error');
+      addToast(err.message || 'Export failed', 'error');
     }
   };
   const [uploading, setUploading] = useState(false);

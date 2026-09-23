@@ -18,41 +18,37 @@ async function register(req, res, next) {
     const { email, password, name, role = 'faculty' } = req.body;
 
     if (!email || !password || !name) {
-      return res.status(400).json({ error: 'Email, password, and name are required' });
+      return res.status(400).json({ error: 'Email, password, and name are required', message: 'Email, password, and name are required' });
     }
 
-    // Check if user exists
-    // from user table, select id where email = email, single result
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedName = name.trim();
+
+    // Check if user exists (case-insensitive)
     const { data: existing, error: checkError } = await supabase
       .from('users')
       .select('id')
-      .eq('email', email)
-      .single();
+      .ilike('email', normalizedEmail)
+      .maybeSingle();
 
     if (existing) {
-      return res.status(409).json({ error: '! Email already registered !' });
+      return res.status(409).json({ error: 'Email already registered', message: 'This email is already registered. Please log in.' });
     }
 
     if (checkError && checkError.code !== 'PGRST116') {
-      // PGRST116 means no rows found, which is expected
       throw checkError;
     }
 
     // Hash password
-    // Generate salt and hash the password using bcrypt
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
-
-    
-    // Create user in database and return the new user data (id, email, name, role) without password
-    // Insert into users table with email, hashed password, name, role, and created_at timestamp. Return id, email, name, role as single result
 
     const { data: user, error } = await supabase
       .from('users')
       .insert({
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
-        name,
+        name: normalizedName,
         role,
         created_at: new Date().toISOString(),
       })
@@ -61,17 +57,24 @@ async function register(req, res, next) {
 
     if (error) throw error;
 
-    // Generate token
-    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
-      expiresIn: '7d',
-    });
+    // Generate token with complete claims for resilient authentication
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
 
-    logger.info(`User registered: ${email}`);
-    res.status(201).json({ user, token });
+    logger.info(`User registered: ${normalizedEmail}`);
+    res.status(201).json({ user, token, message: 'Registration successful' });
   } catch (err) {
-    logger.error('Registration error:', { message: err.message, code: err.code, details: err.details, hint: err.hint });
+    logger.error('Registration error:', { message: err.message, code: err.code, details: err.details });
     
-    // Return more specific error messages
     if (err.code === '23505') {
       return res.status(409).json({ error: 'Email already registered', message: 'This email address is already in use.' });
     }
@@ -93,35 +96,55 @@ async function login(req, res, next) {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+      return res.status(400).json({ error: 'Email/ID and password are required', message: 'Please provide both your email/ID and password' });
     }
 
-    // Find user
-    const { data: user, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .single();
+    const identifier = email.trim();
 
-    if (error || !user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    // Search user by email (case-insensitive) or by name/ID
+    let query = supabase.from('users').select('*');
+    if (identifier.includes('@')) {
+      query = query.ilike('email', identifier.toLowerCase());
+    } else {
+      query = query.or(`email.ilike.${identifier.toLowerCase()},name.ilike.${identifier}`);
+    }
+
+    const { data: user, error } = await query.maybeSingle();
+
+    if (error) {
+      logger.error('Database error during login:', { message: error.message });
+      // If database error, return 500 rather than misleading invalid credentials
+      return res.status(500).json({ error: 'Database connection error', message: 'Unable to connect to database. Please try again.' });
+    }
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials', message: 'Invalid email/ID or password' });
     }
 
     // Verify password
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: 'Invalid credentials', message: 'Invalid email/ID or password' });
     }
 
-    // Generate token
-    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
-      expiresIn: '7d',
-    });
+    // Generate token with complete claims for resilient authentication
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
 
-    logger.info(`User logged in: ${email}`);
+    logger.info(`User logged in: ${user.email}`);
     res.json({
       user: { id: user.id, email: user.email, name: user.name, role: user.role },
       token,
+      message: 'Login successful',
     });
   } catch (err) {
     next(err);

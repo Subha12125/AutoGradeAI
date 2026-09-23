@@ -112,8 +112,9 @@ const ExportService = {
     // 1. Find the maximum number of questions any student answered to build consistent columns
     let maxQuestions = 0;
     results.forEach(r => {
-      if (r.question_results && r.question_results.length > maxQuestions) {
-        maxQuestions = r.question_results.length;
+      const qr = r.question_results;
+      if (Array.isArray(qr) && qr.length > maxQuestions) {
+        maxQuestions = qr.length;
       }
     });
 
@@ -135,36 +136,52 @@ const ExportService = {
 
     const csvStringifier = createObjectCsvStringifier({ header: headers });
 
+    // Helper: sanitize a CSV cell value (prevent formula injection, strip newlines)
+    const sanitize = (val) => {
+      if (val === null || val === undefined) return '';
+      let str = String(val);
+      // Replace newlines with spaces so CSV cells don't break rows
+      str = str.replace(/[\r\n]+/g, ' ').trim();
+      return str;
+    };
+
     // 4. Map the database results to the CSV columns
     const records = results.map((r) => {
-      const percentage = r.total_max_marks 
-        ? ((r.total_marks_awarded / r.total_max_marks) * 100).toFixed(1) 
-        : 0;
+      const totalAwarded = r.total_marks_awarded || 0;
+      const totalMax = r.total_max_marks || 0;
+      const percentage = totalMax > 0
+        ? ((totalAwarded / totalMax) * 100).toFixed(1) 
+        : '0.0';
 
       const row = {
-        rollNumber: r.students?.roll_number || 'N/A',
-        name: r.students?.name || 'N/A',
-        total: r.total_marks_awarded || 0,
-        maxMarks: r.total_max_marks || 0,
+        rollNumber: sanitize(r.students?.roll_number || 'N/A'),
+        name: sanitize(r.students?.name || 'N/A'),
+        total: totalAwarded,
+        maxMarks: totalMax,
         percentage: percentage,
-        overallFeedback: r.overall_feedback || '',
+        overallFeedback: sanitize(r.overall_feedback || ''),
       };
 
       // Populate the per-question columns
-      if (r.question_results) {
+      // Handle both camelCase (marksAwarded) and snake_case (marks_awarded) field names
+      if (Array.isArray(r.question_results)) {
         r.question_results.forEach((qr, i) => {
-          row[`q${i + 1}_marks`] = qr.marksAwarded !== undefined ? qr.marksAwarded : '';
-          row[`q${i + 1}_feedback`] = qr.feedback || '';
+          const marks = qr.marksAwarded ?? qr.marks_awarded ?? qr.marks ?? '';
+          const feedback = qr.feedback ?? qr.comment ?? '';
+          row[`q${i + 1}_marks`] = marks;
+          row[`q${i + 1}_feedback`] = sanitize(feedback);
         });
       }
 
       return row;
     });
 
+    // Add BOM for Excel UTF-8 compatibility
+    const BOM = '\uFEFF';
     const headerString = csvStringifier.getHeaderString();
     const recordsString = csvStringifier.stringifyRecords(records);
 
-    return headerString + recordsString;
+    return BOM + headerString + recordsString;
   },
 
   /**

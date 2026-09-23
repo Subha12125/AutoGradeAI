@@ -1,37 +1,28 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import evalifyLogo from '../../assets/Evalify ai.png';
+import autoGradeLogo from '../../assets/AutoGrade Ai.png';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: 'grid_view' },
-    { name: 'Exams', path: '/exams', icon: 'description' },
-    { name: 'Results', path: '/results', icon: 'analytics' },
-    { name: 'Analytics', path: '/analytics', icon: 'monitoring' },
-    { name: 'Pricing', path: '/pricing', icon: 'payments' },
-    { name: 'Settings', path: '/settings', icon: 'settings' },
+    { name: 'Dashboard', path: '/dashboard', icon: 'ri-dashboard-line' },
+    { name: 'Exams', path: '/exams', icon: 'ri-file-text-line' },
+    { name: 'Results', path: '/results', icon: 'ri-bar-chart-box-line' },
+    { name: 'Analytics', path: '/analytics', icon: 'ri-line-chart-line' },
+    { name: 'Pricing', path: '/pricing', icon: 'ri-bank-card-line' },
+    { name: 'Settings', path: '/settings', icon: 'ri-settings-3-line' },
   ];
 
   return (
     <aside className={`fixed top-0 left-0 h-full w-64 bg-surface-container-lowest z-50 transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
       <div className="p-6 flex flex-col h-full overflow-y-auto">
         {/* Logo */}
-        <div className="flex items-center justify-center mb-4 px-2">
-          <img src={evalifyLogo} alt="Evalify AI Logo" className="w-28 h-auto object-contain drop-shadow-lg" />
+        <div className="flex items-center justify-center mb-6 px-2">
+          <img src={autoGradeLogo} alt="AutoGrade Ai Logo" className="w-28 h-auto object-contain drop-shadow-lg" />
         </div>
-
-        {/* Create Exam CTA */}
-        <button
-          onClick={() => { navigate('/create-exam'); onClose(); }}
-          className="mb-6 w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-primary to-primary-container text-white rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
-        >
-          <span className="material-symbols-outlined text-lg">add_circle</span>
-          New Evaluation
-        </button>
 
         {/* Nav Links */}
         <nav className="flex-1 space-y-1">
@@ -42,7 +33,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
               className={({ isActive }) => `flex items-center gap-4 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${isActive ? 'bg-primary text-on-primary shadow-md shadow-primary/20' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'}`}
             >
-              <span className="material-symbols-outlined text-xl">{item.icon}</span>
+              <i className={`${item.icon} text-xl`} />
               <span>{item.name}</span>
             </NavLink>
           ))}
@@ -59,7 +50,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               <p className="text-[10px] font-black uppercase tracking-widest text-secondary mb-1">Upgrade</p>
               <p className="text-sm font-bold text-on-surface">Go Pro — ₹2,500/mo</p>
             </div>
-            <span className="material-symbols-outlined absolute -right-2 -bottom-2 text-6xl text-secondary/10 group-hover:text-secondary/20 transition-colors">verified</span>
+            <i className="ri-shield-check-line absolute -right-2 -bottom-2 text-6xl text-secondary/10 group-hover:text-secondary/20 transition-colors pointer-events-none" />
           </NavLink>
 
           <div className="flex items-center gap-3 px-2 py-2">
@@ -72,9 +63,10 @@ const Sidebar = ({ isOpen, onClose }) => {
             </div>
             <button
               onClick={logout}
-              className="p-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error/5 transition-all"
+              className="p-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error/5 transition-all cursor-pointer"
+              title="Logout"
             >
-              <span className="material-symbols-outlined text-lg">logout</span>
+              <i className="ri-logout-box-r-line text-lg" />
             </button>
           </div>
         </div>

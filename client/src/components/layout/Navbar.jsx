@@ -20,16 +20,16 @@ const Navbar = ({ onMenuClick }) => {
       '/analytics': 'Analytics',
     };
     if (location.pathname.startsWith('/exams/')) return 'Exam Detail';
-    return map[location.pathname] || 'Evalify AI';
+    return map[location.pathname] || 'AutoGrade Ai';
   };
 
   const handleExport = () => {
     addToast('Generating export file...', 'info');
     setTimeout(() => {
       const element = document.createElement("a");
-      const file = new Blob(["This is a mock export file from Evalify AI."], {type: 'text/plain'});
+      const file = new Blob(["This is a mock export file from AutoGrade Ai."], {type: 'text/plain'});
       element.href = URL.createObjectURL(file);
-      element.download = "evalify-export.txt";
+      element.download = "autograde-export.txt";
       document.body.appendChild(element); // Required for this to work in FireFox
       element.click();
       addToast('Export downloaded successfully!', 'success');
@@ -43,7 +43,7 @@ const Navbar = ({ onMenuClick }) => {
           className="lg:hidden p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors flex-shrink-0"
           onClick={onMenuClick}
         >
-          <span className="material-symbols-outlined">menu</span>
+          <i className="ri-menu-line text-lg" />
         </button>
         <h2
           className="text-base sm:text-lg font-black text-on-surface truncate max-w-[120px] sm:max-w-[200px] md:max-w-none cursor-pointer hover:text-primary transition-colors"
@@ -70,26 +70,27 @@ const Navbar = ({ onMenuClick }) => {
       <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4 relative flex-shrink-0">
         <button
           onClick={() => navigate('/create-exam')}
-          className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-bold text-xs hover:opacity-90 active:scale-95 transition-all shadow-sm"
+          className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-bold text-xs hover:opacity-90 active:scale-95 transition-all shadow-sm cursor-pointer"
         >
-          <span className="material-symbols-outlined text-sm">add</span>
-          New Exam
+          <i className="ri-add-line text-base" />
+          <span>New Exam</span>
         </button>
 
         {/* Mobile-only quick add button */}
         <button
           onClick={() => navigate('/create-exam')}
-          className="md:hidden p-2 bg-primary text-on-primary rounded-lg hover:opacity-90 active:scale-95 transition-all shadow-sm"
+          className="md:hidden p-2 bg-primary text-on-primary rounded-lg hover:opacity-90 active:scale-95 transition-all shadow-sm cursor-pointer"
         >
-          <span className="material-symbols-outlined text-lg">add</span>
+          <i className="ri-add-line text-lg" />
         </button>
 
         <div className="relative">
           <button
             onClick={() => setShowNotifs(!showNotifs)}
-            className="text-on-surface-variant hover:text-primary relative p-2 rounded-lg hover:bg-surface-container-high transition-all"
+            className="text-on-surface-variant hover:text-primary relative p-2 rounded-lg hover:bg-surface-container-high transition-all cursor-pointer"
           >
-            <span className="material-symbols-outlined text-xl">notifications</span>
+            <i className="ri-notification-3-line text-xl" />
+            <span className="sr-only">notifications</span>
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
           </button>
           
@@ -113,9 +114,9 @@ const Navbar = ({ onMenuClick }) => {
 
         <button
           onClick={handleExport}
-          className="hidden sm:flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-lg font-bold text-xs hover:bg-surface-container-highest transition-all"
+          className="hidden sm:flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-lg font-bold text-xs hover:bg-surface-container-highest transition-all cursor-pointer"
         >
-          <span className="material-symbols-outlined text-sm">download</span>
+          <i className="ri-download-2-line text-base" />
           <span className="hidden md:inline">Export</span>
         </button>
       </div>

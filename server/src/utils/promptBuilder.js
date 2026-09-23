@@ -15,7 +15,7 @@ function buildEvaluationPrompt(examData) {
 
   const rubricText = rubric ? rubric.trim() : 'Evaluate based on accuracy, completeness, and clarity of explanation.';
 
-  return `You are an expert exam evaluator. Evaluate the student's answer sheet image(s) based on the following exam details.
+  return `You are an expert exam evaluator. Evaluate the student's answer sheet image(s).
 
 ## Exam Information
 - Subject: ${subject}
@@ -23,49 +23,32 @@ function buildEvaluationPrompt(examData) {
 
 ${questionsSection}
 
-## Rubric / Evaluation Criteria
+## Rubric
 ${rubricText}
 
-## Evaluation Instructions
-1. Carefully read each answer from the student's answer sheet image(s)
-2. Compare each answer against the question paper text and rubric above
-3. Assess the accuracy, completeness, and quality of each response
-4. Assign marks for each question based on the rubric
-5. Provide specific, constructive feedback for each answer
+## Instructions
+1. Read each answer from the answer sheet image(s)
+2. Compare against the questions and rubric above
+3. Assign marks and provide specific feedback per question
 
-## CRITICAL - Required JSON Output Format
-You MUST return ONLY a valid JSON object with this EXACT structure (no markdown, no extra text before or after):
+## Required JSON Structure
 {
   "studentAnswers": [
     {
       "questionNumber": 1,
       "marksAwarded": 5,
       "maxMarks": 10,
-      "feedback": "Good understanding shown but missing some details",
-      "confidence": "high"
-    },
-    {
-      "questionNumber": 2,
-      "marksAwarded": 8,
-      "maxMarks": 10,
-      "feedback": "Excellent answer with comprehensive explanation",
+      "feedback": "Brief specific feedback",
       "confidence": "high"
     }
   ],
   "totalMarksAwarded": 13,
   "totalMaxMarks": ${totalMarks},
-  "overallFeedback": "Overall good performance with some areas for improvement",
-  "evaluationNotes": "Any issues reading the answer sheet or special observations"
+  "overallFeedback": "Brief overall assessment",
+  "evaluationNotes": "Any issues reading the sheet"
 }
 
-IMPORTANT RULES:
-- Return ONLY the JSON object
-- Do NOT include markdown code fences (no \`\`\`json)
-- Do NOT include any text before or after the JSON
-- All numbers must be numeric (not strings)
-- Use only "high", "medium", or "low" for confidence values
-- questionNumber values must match the questions in the question paper
-- Ensure totalMarksAwarded equals sum of all marksAwarded values`;
+Rules: confidence must be "high"/"medium"/"low". All numbers numeric. totalMarksAwarded = sum of marksAwarded.`;
 }
 
 function buildQuestionExtractionPrompt() {

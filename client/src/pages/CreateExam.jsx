@@ -192,7 +192,7 @@ const CreateExam = () => {
                 <span className="material-symbols-outlined text-white text-3xl sm:text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>file_upload</span>
               </div>
               <h3 className="font-headline font-extrabold text-xl sm:text-2xl mb-2 text-on-surface relative z-10">Student Answer Sheets</h3>
-              <p className="text-xs sm:text-sm text-on-surface-variant text-center max-w-md relative z-10">Drag and drop multiple scanned response sheets. Evalify AI will automatically separate individual student IDs.</p>
+              <p className="text-xs sm:text-sm text-on-surface-variant text-center max-w-md relative z-10">Drag and drop multiple scanned response sheets. AutoGrade Ai will automatically separate individual student IDs.</p>
               <button className="mt-8 px-8 py-3 bg-primary/5 text-primary font-bold rounded-lg group-hover:bg-primary group-hover:text-white transition-all relative z-10">Choose Files</button>
             </div>
           </div>

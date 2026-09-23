@@ -2,10 +2,10 @@ const ai = require('../config/gemini');
 const logger = require('../utils/logger');
 const { GEMINI_API_KEY } = require('../config/env');
 
-const MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite'];
+const MODELS = ['gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'];
 const MAX_RETRIES = 3;
-const RETRY_DELAY_MS = 10000; // 10 seconds (reduced from 60s)
-const CALL_TIMEOUT_MS = 120000; // 120 seconds
+const BASE_RETRY_DELAY_MS = 3000; // 3 seconds base, exponential backoff applied
+const CALL_TIMEOUT_MS = 60000; // 60 seconds (1 min) — JSON mode responds much faster
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -18,6 +18,34 @@ function withTimeout(promise, ms) {
       setTimeout(() => reject(new Error(`Gemini API timed out after ${ms / 1000}s`)), ms)
     ),
   ]);
+}
+
+/**
+ * Calculate exponential backoff delay with jitter.
+ * When rate-limited (429), uses longer delays so the sliding 60-second window can clear.
+ * @param {number} attempt - Current attempt number (1-indexed)
+ * @param {boolean} isRateLimit - Whether this is a 429 rate limit
+ * @param {string} errorMsg - Raw error message to check for explicit retry times
+ * @returns {number} Delay in milliseconds
+ */
+function getBackoffDelay(attempt, isRateLimit = false, errorMsg = '') {
+  // If the API error specifies a retry duration, follow it
+  const match = (errorMsg || '').match(/retry(?: after| in)? (\d+(?:\.\d+)?)\s*s/i);
+  if (match) {
+    return Math.ceil(parseFloat(match[1])) * 1000 + 1500;
+  }
+
+  if (isRateLimit) {
+    // Free tier: 15 requests/minute. If rate limit hits, wait for the window to clear.
+    // attempt 1: ~8s, attempt 2: ~15s, attempt 3: ~22s
+    const rateLimitDelay = 8000 + (attempt - 1) * 7000;
+    const jitter = Math.random() * 2000;
+    return Math.min(rateLimitDelay + jitter, 35000);
+  }
+
+  const exponentialDelay = BASE_RETRY_DELAY_MS * Math.pow(2, attempt - 1);
+  const jitter = Math.random() * 1000;
+  return Math.min(exponentialDelay + jitter, 30000);
 }
 
 /**
@@ -39,15 +67,17 @@ function extractErrorInfo(err) {
     // Not JSON, use as-is
   }
 
-  const combined = `${parsedMsg} ${status}`;
+  const combined = `${parsedMsg} ${status}`.toLowerCase();
   
   return {
     message: parsedMsg,
     status,
-    isRateLimit: combined.includes('429') || combined.includes('quota') || combined.includes('Too Many Requests') || combined.includes('RESOURCE_EXHAUSTED'),
-    isOverloaded: combined.includes('503') || combined.includes('Service Unavailable') || combined.includes('high demand'),
-    isAuthError: combined.includes('UNAUTHENTICATED') || combined.includes('401') || combined.includes('invalid API key') || combined.includes('API_KEY_INVALID'),
+    isRateLimit: combined.includes('429') || combined.includes('quota') || combined.includes('too many requests') || combined.includes('resource_exhausted'),
+    isOverloaded: combined.includes('503') || combined.includes('service unavailable') || combined.includes('high demand') || combined.includes('unreachable') || combined.includes('unavailable') || combined.includes('enotfound') || combined.includes('econnreset') || combined.includes('fetch failed'),
+    isAuthError: combined.includes('unauthenticated') || combined.includes('401') || combined.includes('invalid api key') || combined.includes('api_key_invalid'),
     isQuotaZero: combined.includes('limit: 0'),
+    isTimeout: parsedMsg.toLowerCase().includes('timed out') || combined.includes('deadline_exceeded'),
+    isNotFoundOrDeprecated: combined.includes('404') || combined.includes('not_found') || combined.includes('no longer available') || combined.includes('not found'),
   };
 }
 
@@ -73,7 +103,6 @@ const GeminiService = {
 
     // Add images as inline data
     for (const img of images) {
-      logger.info(`Adding image to request: type=${img.type}, size=${img.data.length} chars`);
       parts.push({
         inlineData: {
           mimeType: img.type,
@@ -85,7 +114,8 @@ const GeminiService = {
     // Add text prompt
     parts.push({ text: prompt });
 
-    logger.info(`Sending ${images.length} image(s) + prompt (${prompt.length} chars) to Gemini for evaluation`);
+    logger.info(`Sending ${images.length} image(s) + prompt (${prompt.length} chars) to Gemini`);
+    const startTime = Date.now();
 
     // Try each model with retries
     for (const modelName of MODELS) {
@@ -98,6 +128,11 @@ const GeminiService = {
             ai.models.generateContent({
               model: modelName,
               contents: [{ role: 'user', parts }],
+              config: {
+                temperature: 0.2,          // Low creativity for consistent grading
+                maxOutputTokens: 4096,      // Cap output — structured JSON doesn't need more
+                responseMimeType: 'application/json', // Native JSON mode — faster, no markdown wrapping
+              },
             }),
             CALL_TIMEOUT_MS
           );
@@ -109,8 +144,8 @@ const GeminiService = {
             throw new Error('Empty response from Gemini. The model may have rejected the input.');
           }
 
-          logger.info(`Gemini response received (model: ${modelName}, ${text.length} chars)`);
-          logger.debug(`Response preview: ${text.substring(0, 300)}...`);
+          logger.info(`Gemini response received (model: ${modelName}, ${text.length} chars, ${((Date.now() - startTime) / 1000).toFixed(1)}s)`);
+          logger.debug(`Response preview: ${text.substring(0, 200)}...`);
           
           return text;
         } catch (err) {
@@ -128,19 +163,31 @@ const GeminiService = {
             break;
           }
 
-          if ((errInfo.isRateLimit || errInfo.isOverloaded) && attempt < MAX_RETRIES) {
-            const delaySeconds = RETRY_DELAY_MS / 1000;
-            logger.warn(`${errInfo.isOverloaded ? 'Overloaded (503)' : 'Rate limited (429)'}. Retrying in ${delaySeconds}s (attempt ${attempt}/${MAX_RETRIES})...`);
-            await sleep(RETRY_DELAY_MS);
+          // Timeouts, rate limits, and overload are all retryable
+          if ((errInfo.isRateLimit || errInfo.isOverloaded || errInfo.isTimeout) && attempt < MAX_RETRIES) {
+            const delayMs = errInfo.isTimeout ? 3000 : getBackoffDelay(attempt, errInfo.isRateLimit, errInfo.message);
+            const reason = errInfo.isTimeout ? 'Timeout' : errInfo.isOverloaded ? 'Overloaded / Unavailable' : 'Rate limited (429)';
+            logger.warn(`${reason}. Retrying in ${Math.round(delayMs / 1000)}s (attempt ${attempt}/${MAX_RETRIES})...`);
+            await sleep(delayMs);
             continue;
           }
 
-          if (errInfo.isRateLimit || errInfo.isOverloaded) {
-            logger.warn(`${errInfo.isOverloaded ? 'Overloaded' : 'Rate limited'} on ${modelName}, trying next model...`);
+          if (errInfo.isRateLimit || errInfo.isOverloaded || errInfo.isTimeout) {
+            const reason = errInfo.isTimeout ? 'Timed out' : errInfo.isOverloaded ? 'Overloaded' : 'Rate limited';
+            logger.warn(`${reason} on ${modelName} after ${MAX_RETRIES} attempts, trying next model...`);
+            if (errInfo.isRateLimit) {
+              // Wait 5s before switching to avoid hammering the next model while project quota resets
+              await sleep(5000);
+            }
             break;
           }
 
-          // Non-rate-limit error, throw immediately
+          if (errInfo.isNotFoundOrDeprecated) {
+            logger.warn(`Model ${modelName} is deprecated or unavailable (${errInfo.message.substring(0, 150)}). Trying next model...`);
+            break;
+          }
+
+          // Non-retryable error, throw immediately
           throw new Error(`Gemini API error: ${errInfo.message.substring(0, 200)}`);
         }
       }

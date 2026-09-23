@@ -85,8 +85,8 @@ async function exportCSV(req, res, next) {
     const { examId } = req.params;
     const csv = await ExportService.toCSV(examId);
 
-    res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', `attachment; filename=results-${examId}.csv`);
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="results-${examId}.csv"`);
     res.send(csv);
   } catch (err) {
     next(err);

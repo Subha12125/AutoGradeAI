@@ -23,11 +23,11 @@ const ScoreCard = ({ label, value, subValue, icon, color = 'primary', noBg = fal
   };
 
   const colors = {
-    primary: 'bg-primary/10 text-primary',
-    secondary: 'bg-secondary/10 text-secondary',
-    success: 'bg-success/10 text-success',
-    error: 'bg-error/10 text-error',
-    warning: 'bg-warning/10 text-warning',
+    primary: 'bg-primary/10 text-primary border border-primary/20',
+    secondary: 'bg-secondary/10 text-secondary border border-secondary/20',
+    success: 'bg-success/10 text-success border border-success/20',
+    error: 'bg-error/10 text-error border border-error/20',
+    warning: 'bg-warning/10 text-warning border border-warning/20',
   };
 
   const textColors = {
@@ -38,18 +38,51 @@ const ScoreCard = ({ label, value, subValue, icon, color = 'primary', noBg = fal
     warning: 'text-warning',
   };
 
+  const remixIconMap = {
+    menu_book: 'ri-book-open-line',
+    task_alt: 'ri-checkbox-circle-line',
+    pending_actions: 'ri-time-line',
+    toll: 'ri-coin-line',
+    bolt: 'ri-flashlight-line',
+    trending_up: 'ri-line-chart-line',
+    people: 'ri-group-line',
+    check_circle: 'ri-checkbox-circle-fill',
+    grade: 'ri-award-line',
+    description: 'ri-file-text-line',
+    verified: 'ri-shield-check-line',
+    error: 'ri-error-warning-line',
+    add_circle: 'ri-add-circle-line',
+    analytics: 'ri-bar-chart-box-line',
+  };
+
+  const remixClass = icon?.startsWith('ri-') ? icon : (remixIconMap[icon] || null);
+
+  const renderIcon = (sizeClass = 'text-xl sm:text-2xl') => {
+    if (remixClass) {
+      return (
+        <span className="inline-flex items-center justify-center">
+          <i className={`${remixClass} ${sizeClass}`} />
+          <span className="sr-only">{icon}</span>
+        </span>
+      );
+    }
+    return <span className="material-symbols-outlined text-xl sm:text-2xl font-variation-fill">{icon}</span>;
+  };
+
   return (
-    <div className="bg-white p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-[1.5rem] atmospheric-shadow border border-outline-variant/10 flex flex-col justify-between h-full min-h-[120px] sm:min-h-[160px] group hover:-translate-y-1 hover:shadow-md transition-all relative overflow-hidden">
-      
+    <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-5 md:p-6 rounded-2xl atmospheric-shadow border border-slate-200/80 hover:border-primary/30 flex flex-col justify-between h-full min-h-[130px] sm:min-h-[160px] group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative overflow-hidden">
+      {/* Decorative subtle ambient gradient in card corner */}
+      <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-slate-100/50 group-hover:bg-primary/5 transition-colors pointer-events-none" />
+
       {/* Top Section: Icon */}
-      <div className="mb-3 sm:mb-6 relative z-10">
+      <div className="mb-3 sm:mb-4 relative z-10 flex items-center justify-between">
         {!noBg ? (
-          <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-sm ${colors[color]}`}>
-            <span className="material-symbols-outlined text-lg sm:text-2xl font-variation-fill">{icon}</span>
+          <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:scale-105 ${colors[color]}`}>
+            {renderIcon('text-xl sm:text-2xl')}
           </div>
         ) : (
-          <div className={`w-9 h-9 sm:w-12 sm:h-12 flex items-center justify-center ${textColors[color] || 'text-on-surface'}`}>
-            <span className="material-symbols-outlined text-2xl sm:text-4xl font-variation-fill">{icon}</span>
+          <div className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center ${textColors[color] || 'text-on-surface'}`}>
+            {renderIcon('text-2xl sm:text-4xl')}
           </div>
         )}
       </div>
@@ -62,13 +95,13 @@ const ScoreCard = ({ label, value, subValue, icon, color = 'primary', noBg = fal
             {value}
           </span>
         ) : (
-          <h3 className="text-xl sm:text-3xl font-black font-headline text-on-surface leading-none">{value}</h3>
+          <h3 className="text-2xl sm:text-3xl font-extrabold font-headline text-slate-900 leading-none tracking-tight">{value}</h3>
         )}
-        <p className="text-[10px] font-bold uppercase tracking-widest text-outline leading-tight mt-1 break-words">
+        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 leading-tight mt-1.5 break-words">
           {label}
         </p>
         {subValue && (
-          <p className={`text-[10px] font-bold mt-1 ${subValue.includes('+') ? 'text-emerald-500' : 'text-on-surface-variant'}`}>
+          <p className={`text-[11px] font-semibold mt-0.5 flex items-center gap-1 ${subValue.includes('+') ? 'text-emerald-500' : 'text-on-surface-variant'}`}>
             {subValue}
           </p>
         )}

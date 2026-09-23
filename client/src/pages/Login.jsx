@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../hooks/useAuth';
-import evalifyLogo from '../assets/Evalify ai.png';
+import autoGradeLogo from '../assets/AutoGrade Ai.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,10 +16,13 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!email.trim() || !password) {
+      addToast('Please enter both your email/ID and password', 'error');
+      return;
+    }
     setLoading(true);
-    addToast('Authenticating...', 'info');
     try {
-      await authenticate(email, password);
+      await authenticate(email.trim(), password);
       addToast('Login successful', 'success');
       navigate('/dashboard');
     } catch (err) {
@@ -39,8 +42,6 @@ const Login = () => {
     addToast('Access request submitted to admin', 'success');
   };
 
-
-
   return (
     <div className="bg-background text-on-surface min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 -z-10 bg-surface">
@@ -54,27 +55,30 @@ const Login = () => {
 
       <main className="w-full max-w-md px-6 z-10">
         <div className="flex flex-col items-center mb-10">
-          <img src={evalifyLogo} alt="Evalify AI Logo" className="w-32 h-32 mb-6 object-contain drop-shadow-lg" />
-          <h1 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2 font-headline">Evalify AI</h1>
+          <img src={autoGradeLogo} alt="AutoGrade Ai Logo" className="w-32 h-32 mb-6 object-contain drop-shadow-lg" />
+          <h1 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2 font-headline">AutoGrade Ai</h1>
           <p className="text-on-surface-variant font-medium text-sm">Empowering the Academic Edge</p>
         </div>
 
         <div className="bg-white p-8 sm:p-10 rounded-2xl atmospheric-shadow">
           <div className="mb-8">
             <h2 className="text-xl font-bold text-on-surface mb-1 font-headline">Welcome back</h2>
-            <p className="text-on-surface-variant text-sm">Enter your faculty credentials.</p>
+            <p className="text-on-surface-variant text-sm">Enter your credentials to log in.</p>
           </div>
 
           <form className="space-y-5" onSubmit={handleLogin}>
             <div className="space-y-2">
-              <label className="block text-[10px] font-bold text-on-surface uppercase tracking-widest" htmlFor="email">Email</label>
+              <label className="block text-[10px] font-bold text-on-surface uppercase tracking-widest" htmlFor="email">
+                Email or Faculty ID
+              </label>
               <input
                 className="w-full px-4 py-3 bg-surface-container-high/50 rounded-lg focus:ring-2 focus:ring-primary/40 text-on-surface placeholder:text-outline text-sm transition-all border-none"
                 id="email"
-                placeholder="professor@university.edu"
-                type="email"
+                placeholder="professor@university.edu or User ID"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="username"
                 required
               />
             </div>
@@ -92,6 +96,7 @@ const Login = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
                   required
                 />
                 <button
@@ -99,7 +104,7 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors"
                 >
-                  <span className="material-symbols-outlined text-lg">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                  <i className={`text-lg ${showPassword ? 'ri-eye-off-line' : 'ri-eye-line'}`} />
                 </button>
               </div>
             </div>
@@ -114,22 +119,23 @@ const Login = () => {
               type="submit"
             >
               {loading ? (
-                <span className="material-symbols-outlined text-lg animate-spin">progress_activity</span>
+                <>
+                  <i className="ri-loader-4-line text-lg animate-spin" />
+                  <span>Logging in...</span>
+                </>
               ) : (
                 <>
-                  <span>Sign In</span>
-                  <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                  <span>Log In</span>
+                  <i className="ri-arrow-right-line text-lg" />
                 </>
               )}
             </button>
           </form>
-
-
         </div>
 
         <div className="mt-8 text-center">
           <p className="text-xs text-on-surface-variant">
-            New to Evalify? <Link to="/signup" className="text-primary font-bold hover:underline">Create Account</Link>
+            New to AutoGrade? <Link to="/signup" className="text-primary font-bold hover:underline">Create Account</Link>
           </p>
         </div>
       </main>

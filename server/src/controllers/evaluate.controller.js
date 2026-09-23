@@ -84,4 +84,51 @@ async function getEvaluationStatus(req, res, next) {
   }
 }
 
-module.exports = { startEvaluation, getEvaluationStatus };
+/**
+ * GET /api/evaluate/stream/:examId
+ * Server-Sent Events (SSE) endpoint for real-time evaluation progress.
+ */
+async function streamEvaluationProgress(req, res) {
+  const { examId } = req.params;
+
+  // Set SSE headers
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+    'X-Accel-Buffering': 'no', // Disable nginx buffering if present
+  });
+
+  // Send initial connection event
+  res.write(`data: ${JSON.stringify({ type: 'connected', examId })}\n\n`);
+
+  // Listen for progress events
+  const onProgress = (data) => {
+    try {
+      res.write(`data: ${JSON.stringify(data)}\n\n`);
+    } catch (err) {
+      logger.warn(`SSE write failed for exam ${examId}: ${err.message}`);
+    }
+  };
+
+  const eventName = `progress:${examId}`;
+  EvaluationService.events.on(eventName, onProgress);
+
+  // Send heartbeat every 15s to keep connection alive
+  const heartbeat = setInterval(() => {
+    try {
+      res.write(`: heartbeat\n\n`);
+    } catch {
+      clearInterval(heartbeat);
+    }
+  }, 15000);
+
+  // Clean up on client disconnect
+  req.on('close', () => {
+    EvaluationService.events.removeListener(eventName, onProgress);
+    clearInterval(heartbeat);
+    logger.info(`SSE client disconnected for exam ${examId}`);
+  });
+}
+
+module.exports = { startEvaluation, getEvaluationStatus, streamEvaluationProgress };

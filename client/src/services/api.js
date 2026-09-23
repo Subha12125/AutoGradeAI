@@ -28,9 +28,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Only clear token if the request had a token (avoid clearing during login)
+      const isAuthEndpoint = error.config?.url?.includes('/auth/login') || error.config?.url?.includes('/auth/register');
       const hadToken = error.config?.headers?.Authorization;
-      if (hadToken) {
+      // Only clear token and redirect to login if it was a protected resource that rejected our token
+      if (hadToken && !isAuthEndpoint) {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user');
         window.location.href = '/login';

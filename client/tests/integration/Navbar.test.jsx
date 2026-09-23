@@ -16,8 +16,8 @@ describe('Navbar Integration', () => {
 
   it('renders the navbar title correctly', () => {
     renderNavbar();
-    // Default page title when route is '/' is 'Evalify AI'
-    expect(screen.getByText('Evalify AI')).toBeInTheDocument();
+    // Default page title when route is '/' is 'AutoGrade Ai'
+    expect(screen.getByText('AutoGrade Ai')).toBeInTheDocument();
   });
 
   it('opens notification dropdown on bell click', () => {

@@ -7,10 +7,57 @@ const ExamModel = require('../models/exam.model');
 const { buildEvaluationPrompt } = require('../utils/promptBuilder');
 const { parseEvaluationResponse, extractStudentInfo } = require('../utils/parser');
 const logger = require('../utils/logger');
+const { EventEmitter } = require('events');
+
+// Global event emitter for SSE progress updates
+const evaluationEvents = new EventEmitter();
+evaluationEvents.setMaxListeners(50); // Support many concurrent SSE connections
+
+/**
+ * Simple concurrency limiter — runs async tasks with a max parallelism.
+ * No external dependency needed.
+ */
+function pLimit(concurrency) {
+  const queue = [];
+  let activeCount = 0;
+
+  const next = () => {
+    activeCount--;
+    if (queue.length > 0) {
+      queue.shift()();
+    }
+  };
+
+  return (fn) => new Promise((resolve, reject) => {
+    const run = async () => {
+      activeCount++;
+      try {
+        const result = await fn();
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      } finally {
+        next();
+      }
+    };
+
+    if (activeCount < concurrency) {
+      run();
+    } else {
+      queue.push(run);
+    }
+  });
+}
+
+const CONCURRENCY_LIMIT = 2; // Process 2 answer sheets in parallel to stay safely within free/tier-1 RPM limits
 
 const EvaluationService = {
+  /** Expose event emitter for SSE consumers */
+  events: evaluationEvents,
+
   /**
    * Process a batch of answer sheets for an exam.
+   * Uses parallel processing with concurrency limit for speed.
    * @param {string} examId - Exam ID
    * @param {Array} answerFiles - Array of multer file objects
    */
@@ -32,22 +79,79 @@ const EvaluationService = {
 
     const results = [];
     const errors = [];
+    const total = answerFiles.length;
+    let completedCount = 0;
 
-    for (let i = 0; i < answerFiles.length; i++) {
-      const file = answerFiles[i];
-      try {
-        // Delay between files to avoid Gemini API rate limits
-        if (i > 0) {
-          logger.info(`Waiting 5s before next evaluation to avoid rate limits...`);
-          await new Promise(r => setTimeout(r, 5000));
+    // Emit initial progress
+    evaluationEvents.emit(`progress:${examId}`, {
+      type: 'batch_start',
+      examId,
+      total,
+      completed: 0,
+      progress: 0,
+    });
+
+    // Create concurrency-limited executor
+    const limit = pLimit(CONCURRENCY_LIMIT);
+    const batchStart = Date.now();
+
+    // Launch evaluations with controlled concurrency and staggering to respect RPM quotas
+    const promises = answerFiles.map((file, index) =>
+      limit(async () => {
+        const studentInfo = extractStudentInfo(file.originalname);
+        try {
+          if (index > 0) {
+            // Stagger parallel uploads so all requests don't hit the API at the exact same second
+            await new Promise(r => setTimeout(r, Math.min(index * 2000, 6000)));
+          }
+          logger.info(`[${index + 1}/${total}] Starting evaluation: ${file.originalname}`);
+          const result = await this.evaluateSingle(exam, file);
+          results.push(result);
+
+          completedCount++;
+          evaluationEvents.emit(`progress:${examId}`, {
+            type: 'student_complete',
+            examId,
+            total,
+            completed: completedCount,
+            failed: errors.length,
+            progress: Math.round(((completedCount + errors.length) / total) * 100),
+            student: {
+              name: studentInfo.name,
+              rollNumber: studentInfo.rollNumber,
+              status: 'completed',
+              marksAwarded: result.marksAwarded,
+            },
+          });
+
+          logger.info(`[${completedCount + errors.length}/${total}] Completed: ${file.originalname}`);
+          return { status: 'fulfilled', value: result };
+        } catch (err) {
+          logger.error(`Failed to evaluate ${file.originalname}`, { error: err.message, stack: err.stack });
+          errors.push({ file: file.originalname, error: err.message });
+
+          evaluationEvents.emit(`progress:${examId}`, {
+            type: 'student_failed',
+            examId,
+            total,
+            completed: completedCount,
+            failed: errors.length,
+            progress: Math.round(((completedCount + errors.length) / total) * 100),
+            student: {
+              name: studentInfo.name,
+              rollNumber: studentInfo.rollNumber,
+              status: 'failed',
+              error: err.message,
+            },
+          });
+
+          return { status: 'rejected', reason: err.message };
         }
-        const result = await this.evaluateSingle(exam, file);
-        results.push(result);
-      } catch (err) {
-        logger.error(`Failed to evaluate ${file.originalname}`, { error: err.message, stack: err.stack });
-        errors.push({ file: file.originalname, error: err.message });
-      }
-    }
+      })
+    );
+
+    // Wait for all to complete (they won't throw because we catch inside)
+    await Promise.all(promises);
 
     // Clean up uploaded files
     PdfService.cleanup(answerFiles.map((f) => f.path));
@@ -65,12 +169,24 @@ const EvaluationService = {
     }
     await ExamModel.updateStatus(examId, finalStatus);
 
-    logger.info(`Batch complete: ${results.length} succeeded, ${errors.length} failed. Final status: ${finalStatus}`, {
+    // Emit completion event
+    evaluationEvents.emit(`progress:${examId}`, {
+      type: 'batch_complete',
+      examId,
+      total,
+      completed: results.length,
+      failed: errors.length,
+      progress: 100,
+      finalStatus,
+    });
+
+    const batchDuration = ((Date.now() - batchStart) / 1000).toFixed(1);
+    logger.info(`Batch complete in ${batchDuration}s: ${results.length} succeeded, ${errors.length} failed. Final status: ${finalStatus}`, {
       examId,
       totalFiles: answerFiles.length,
       successCount: results.length,
       failureCount: errors.length,
-      errors: errors.length > 0 ? errors.map(e => e.error).join('; ') : 'none',
+      durationSeconds: batchDuration,
     });
 
     return {
@@ -115,15 +231,11 @@ const EvaluationService = {
         rubric: exam.rubric,
       });
 
-      logger.info(`Evaluating ${file.originalname}: subject=${exam.subject}, totalMarks=${exam.total_marks}, rubricLength=${exam.rubric?.length || 0}, questionsLength=${(exam.questions || []).length}`);
+      logger.info(`Evaluating ${file.originalname}: subject=${exam.subject}, totalMarks=${exam.total_marks}`);
 
       // Call Gemini
-      logger.info(`Calling Gemini API with ${images.length} image(s)...`);
       const rawResponse = await GeminiService.evaluate(prompt, images);
-      logger.info(`Received response from Gemini (${rawResponse.length} chars)`);
-      
-      // Log response preview
-      logger.info(`Response preview: ${rawResponse.substring(0, 300)}`);
+      logger.info(`Received response for ${file.originalname} (${rawResponse.length} chars)`);
 
       const parsed = parseEvaluationResponse(rawResponse);
 

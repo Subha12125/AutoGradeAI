@@ -1,4 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import { useAuth } from '../../src/hooks/useAuth';
 import { authService } from '../../src/services/auth.service';
 import { useAuthStore } from '../../src/store/authStore';
@@ -13,6 +14,8 @@ vi.mock('../../src/services/auth.service', () => ({
 }));
 
 describe('useAuth hook', () => {
+  const wrapper = ({ children }) => <BrowserRouter>{children}</BrowserRouter>;
+
   beforeEach(() => {
     vi.clearAllMocks();
     // Reset Zustand store state
@@ -26,7 +29,7 @@ describe('useAuth hook', () => {
   });
 
   it('initializes with default state', () => {
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
     
     expect(result.current.user).toBeNull();
     expect(result.current.isAuthenticated).toBe(false);
@@ -39,7 +42,7 @@ describe('useAuth hook', () => {
     const mockToken = 'test-token';
     authService.login.mockResolvedValueOnce({ user: mockUser, token: mockToken });
     
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
     
     await act(async () => {
       await result.current.login('test@example.com', 'password123');
@@ -57,7 +60,7 @@ describe('useAuth hook', () => {
       response: { data: { message: errorMessage } }
     });
     
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
     
     await act(async () => {
       try {
@@ -82,7 +85,7 @@ describe('useAuth hook', () => {
     
     authService.logout.mockResolvedValueOnce(true);
     
-    const { result } = renderHook(() => useAuth());
+    const { result } = renderHook(() => useAuth(), { wrapper });
     
     await act(async () => {
       await result.current.logout();
