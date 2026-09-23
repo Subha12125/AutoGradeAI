@@ -1,189 +1,150 @@
 <div align="center">
 
 <!-- HERO -->
-
-<a href="https://github.com/Subha12125/Evalify-Ai">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:6366f1,50:8b5cf6,100:06b6d4&height=220&section=header&text=Evalify%20AI&fontSize=62&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=AI-Powered%20Automated%20Answer%20Sheet%20Evaluation&descAlignY=58&descSize=18" width="100%" />
-</a>
-
-<br/>
-
-<a href="https://github.com/Subha12125/Evalify-Ai">
-  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=20&duration=3000&pause=1000&color=6366F1&center=true&vCenter=true&width=650&lines=Evaluate+%E2%80%A2+Analyze+%E2%80%A2+Improve;Automated+Assessment+with+Generative+AI;From+Answer+Sheet+to+Structured+Feedback" alt="Typing Animation" />
+<a href="https://github.com/Subha12125/AutoGradeAI">
+  <img src="client/public/logo.png" width="120" height="120" alt="AutoGrade AI Logo" style="border-radius: 28px; box-shadow: 0 10px 30px rgba(32, 54, 189, 0.25);" />
 </a>
 
 <br/><br/>
 
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react\&logoColor=white)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite\&logoColor=white)](https://vitejs.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-LTS-339933?logo=node.js\&logoColor=white)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-000000?logo=express\&logoColor=white)](https://expressjs.com/)
-[![Gemini](https://img.shields.io/badge/Google%20Gemini-AI-4285F4?logo=google\&logoColor=white)](https://ai.google.dev/)
-[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase\&logoColor=white)](https://supabase.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql\&logoColor=white)](https://www.postgresql.org/)
+<a href="https://github.com/Subha12125/AutoGradeAI">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:2563eb,50:4f46e5,100:06b6d4&height=220&section=header&text=AutoGrade%20AI&fontSize=62&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Next-Gen%20Multimodal%20AI%20Exam%20Evaluation%20Platform&descAlignY=58&descSize=18" width="100%" />
+</a>
 
 <br/>
 
-<a href="https://github.com/Subha12125/Evalify-Ai/stargazers">
-  <img src="https://img.shields.io/github/stars/Subha12125/Evalify-Ai?style=for-the-badge&logo=github" />
+<a href="https://github.com/Subha12125/AutoGradeAI">
+  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=20&duration=3000&pause=1000&color=2563EB&center=true&vCenter=true&width=650&lines=Evaluate+%E2%80%A2+Analyze+%E2%80%A2+Empower;Multimodal+AI+Exam+Scoring;Handwritten+OCR+%2B+Step-by-Step+Rubrics;Zero-Latency+SWR+Architecture" alt="Typing Animation" />
 </a>
-<a href="https://github.com/Subha12125/Evalify-Ai/network/members">
-  <img src="https://img.shields.io/github/forks/Subha12125/Evalify-Ai?style=for-the-badge&logo=github" />
+
+<br/><br/>
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-Flash-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
+[![Vitest](https://img.shields.io/badge/Vitest-Passing-FCC72B?logo=vitest&logoColor=white)](https://vitest.dev/)
+
+<br/>
+
+<a href="https://github.com/Subha12125/AutoGradeAI/stargazers">
+  <img src="https://img.shields.io/github/stars/Subha12125/AutoGradeAI?style=for-the-badge&logo=github" />
 </a>
-<a href="https://github.com/Subha12125/Evalify-Ai/issues">
-  <img src="https://img.shields.io/github/issues/Subha12125/Evalify-Ai?style=for-the-badge&logo=github" />
+<a href="https://github.com/Subha12125/AutoGradeAI/network/members">
+  <img src="https://img.shields.io/github/forks/Subha12125/AutoGradeAI?style=for-the-badge&logo=github" />
 </a>
+<a href="https://github.com/Subha12125/AutoGradeAI/issues">
+  <img src="https://img.shields.io/github/issues/Subha12125/AutoGradeAI?style=for-the-badge&logo=github" />
+</a>
+
+<br/><br/>
+
+🌐 **Live Demo**: [https://evalify-ai-tawny.vercel.app](https://evalify-ai-tawny.vercel.app) &nbsp;•&nbsp; ⚡ **API Service**: [https://autogradeai-8xtf.onrender.com](https://autogradeai-8xtf.onrender.com)
 
 </div>
 
 ---
 
-# About Evalify AI
+## 📖 Overview
 
-**Evalify AI** is a full-stack intelligent assessment platform designed to automate and simplify student answer-sheet evaluation.
+**AutoGrade AI** is an enterprise-ready, end-to-end intelligent assessment platform designed to eliminate the manual bottleneck in academic grading. Built for professors, university departments, and academic institutions, AutoGrade AI merges vision multimodal AI, automated rubric alignment, and instant student diagnostic feedback into a cohesive workflow.
 
-It combines:
+Whether processing typed assignments or complex handwritten multi-page mathematical derivations, AutoGrade AI grades papers with objective consistency while keeping educators firmly in control.
 
-* Multimodal Generative AI
-* OCR
-* Semantic answer analysis
-* Rubric-based scoring
-* Automated feedback
-* Performance analytics
-* Human review
-
-into a single assessment workflow.
-
-The system is designed to handle both **handwritten and typed answer sheets**, allowing educators to process individual submissions or evaluate an entire class in a batch.
-
-> **Evalify AI transforms raw answer sheets into structured marks, meaningful feedback, and actionable academic insights.**
+> ⏱️ **Reduces grading turnaround time by 80% while providing students with in-depth question-level diagnostic rationale.**
 
 ---
 
-# The Problem
-
-Traditional answer-sheet evaluation creates several challenges:
+## ⚡ Key Highlights & Architecture
 
 ```text
-Manual Checking
-      │
-      ├── Time consuming
-      ├── Repetitive work
-      ├── Difficult to scale
-      ├── Limited analytics
-      └── Feedback takes time
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                           AutoGrade AI Pipeline                        │
+ ├────────────────────────────────────────────────────────────────────────┤
+ │                                                                        │
+ │  1. Ingestion        Question Paper (PDF) + Rubric + Student Scans     │
+ │                              │                                         │
+ │  2. Parsing          pdf-parse (instant text) + Multimodal Vision OCR  │
+ │                              │                                         │
+ │  3. Alignment        Structured step-marking rubric normalization      │
+ │                              │                                         │
+ │  4. Evaluation       Google Gemini Flash (Parallel Batch Reasoning)   │
+ │                              │                                         │
+ │  5. Delivery         Real-Time SSE Streaming + In-Memory SWR Cache     │
+ │                              │                                         │
+ │  6. Analytics        Exportable CSV/PDF + Interactive Diagnostic Modal │
+ │                                                                        │
+ └────────────────────────────────────────────────────────────────────────┘
 ```
 
-For a large class, an educator may need to manually inspect hundreds of answers while maintaining consistency across different students.
+- **Zero-Latency Perceived Fetching (SWR)**: Client-side module-level caching and in-memory aggregation eliminate loading spinners when switching between exams or reviews.
+- **Multimodal Handwriting Recognition**: Leverages Google Gemini vision models to interpret diagrams, calculations, and freeform handwriting.
+- **Dynamic File Staging**: Drag-and-drop document upload queue with real-time file counters and visual validation badges.
+- **Uncluttered Results UI**: Streamlined 4-column layout (`Student`, `Score`, `Percentage`, `AI Diagnostic Feedback`) with an interactive modal displaying detailed rubrics and feedback.
+- **Optimized Database Layer**: Composite PostgreSQL indexes for Supabase deliver sub-5ms query response times.
 
 ---
 
-# The Solution
-
-Evalify AI introduces an AI-assisted evaluation pipeline:
-
-```text
-Student Answer Sheet
-          │
-          ▼
-   Document Processing
-          │
-          ▼
-      OCR / Vision
-          │
-          ▼
-   Question Extraction
-          │
-          ▼
-   Rubric-Based Analysis
-          │
-          ▼
-      Gemini AI
-          │
-          ▼
-   Score + Feedback
-          │
-          ▼
-     Human Review
-          │
-          ▼
-   Final Evaluation
-```
-
-The objective is not to replace educators.
-
-The objective is to **reduce repetitive work while keeping educators in control of final decisions**.
-
----
-
-# Core Features
+## ✨ Features
 
 <table>
 <tr>
 <td width="50%">
 
-### AI Evaluation
-
-Evaluate student responses using multimodal Generative AI and structured grading criteria.
+### 🧠 Multimodal AI Grading
+Grades responses against strict step-marking schemes, awarding partial credit and conceptual marks with human-grade precision.
 
 </td>
 <td width="50%">
 
-### Handwritten Recognition
-
-Process scanned handwritten answer sheets using OCR and multimodal vision capabilities.
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-### Rubric-Based Scoring
-
-Evaluate answers against question-specific criteria rather than relying only on keyword matching.
-
-</td>
-<td>
-
-### Batch Processing
-
-Upload multiple answer sheets and process an entire class through a single workflow.
+### ✍️ Advanced Handwritten OCR
+Transcribes and interprets messy handwriting, equations, symbols, and cross-outs across scanned student answer sheets.
 
 </td>
 </tr>
-
 <tr>
 <td>
 
-### Performance Analytics
-
-Understand student and question-level performance through structured evaluation data.
+### ⚡ Instant SWR Caching
+Instant 0ms tab and exam switching using Stale-While-Revalidate caching, eliminating repetitive database waterfalls.
 
 </td>
 <td>
 
-### Human Review
-
-Allow educators to inspect, modify, and finalize AI-generated results.
+### 🚀 Parallel Batch Processing
+Upload dozens of student sheets concurrently. Real-time background workers process batches without blocking the browser.
 
 </td>
 </tr>
-
 <tr>
 <td>
 
-### Live Progress
-
-Track long-running evaluation jobs through real-time status polling.
+### 🔍 AI Diagnostic Modal
+Inspect complete question breakdowns, individual marks, step feedback, and overall evaluation rationale in a single click.
 
 </td>
 <td>
 
-### Result Export
+### 📊 In-Memory Analytics & Export
+Calculates class averages, highest/lowest scores, and exportable grade books formatted for CSV and printable PDF reports.
 
-Export structured evaluation results into CSV and PDF formats.
+</td>
+</tr>
+<tr>
+<td>
+
+### 🛡️ Tiered Quota & Promo Codes
+Built-in quota management for Free, Starter, Professional, and Advanced plans with instant promo code activation.
+
+</td>
+<td>
+
+### 🔒 Enterprise Security
+JWT-based authentication, password hashing with bcrypt, input sanitization, and full PostgreSQL Row-Level Security (RLS).
 
 </td>
 </tr>
@@ -191,818 +152,244 @@ Export structured evaluation results into CSV and PDF formats.
 
 ---
 
-# Product Workflow
-
-```text
-┌─────────────────────┐
-│    Create Exam      │
-│                     │
-│ Questions           │
-│ Marks                │
-│ Rubrics              │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Upload Materials    │
-│                     │
-│ Question Paper      │
-│ Rubric              │
-│ Answer Sheets       │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Document Processing │
-│                     │
-│ PDF / Image         │
-│ OCR                  │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│   AI Evaluation     │
-│                     │
-│ Question            │
-│ Student Answer      │
-│ Rubric              │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Structured Results  │
-│                     │
-│ Score                │
-│ Feedback             │
-│ Reasoning            │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│    Faculty Review   │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Analytics & Export  │
-└─────────────────────┘
-```
-
----
-
-# AI Evaluation Engine
-
-The core of Evalify AI is the evaluation engine.
-
-Instead of sending an entire answer sheet to an AI model and asking for a final score, the system follows a structured evaluation approach.
-
-```text
-                  Evaluation Context
-                         │
-        ┌────────────────┼────────────────┐
-        │                │                │
-        ▼                ▼                ▼
-   Question         Student Answer      Rubric
-        │                │                │
-        └────────────────┼────────────────┘
-                         │
-                         ▼
-                Multimodal AI Model
-                         │
-                         ▼
-              Semantic Evaluation
-                         │
-              ┌──────────┼──────────┐
-              │          │          │
-              ▼          ▼          ▼
-            Score     Feedback    Reasoning
-```
-
-### Example
-
-```json
-{
-  "question": "Explain linked list insertion.",
-  "maximumMarks": 10,
-  "score": 8,
-  "feedback": "Good explanation with minor missing details.",
-  "reasoning": "The student correctly describes node linking but does not fully explain edge cases."
-}
-```
-
-The structured result can then be reviewed by a faculty member.
-
----
-
-# System Architecture
-
-```text
-                             ┌─────────────────┐
-                             │     Faculty     │
-                             │      User       │
-                             └────────┬────────┘
-                                      │
-                                      ▼
-                         ┌──────────────────────┐
-                         │     React + Vite     │
-                         │                      │
-                         │ Dashboard            │
-                         │ Exam Management      │
-                         │ Upload Interface     │
-                         │ Analytics             │
-                         │ Review                │
-                         └──────────┬───────────┘
-                                    │
-                                    │ REST API
-                                    ▼
-                         ┌──────────────────────┐
-                         │   Node.js + Express  │
-                         │                      │
-                         │ Authentication       │
-                         │ Exam Management      │
-                         │ File Processing      │
-                         │ Evaluation Engine    │
-                         └───────┬───────┬──────┘
-                                 │       │
-                     ┌───────────┘       └────────────┐
-                     ▼                                ▼
-          ┌────────────────────┐             ┌──────────────────┐
-          │ Supabase           │             │ Google Gemini AI │
-          │                    │             │                  │
-          │ PostgreSQL         │             │ Vision           │
-          │ Storage            │             │ OCR              │
-          │ Authentication     │             │ Semantics        │
-          └──────────┬─────────┘             │ Evaluation       │
-                     │                       └────────┬─────────┘
-                     │                                │
-                     └──────────────┬─────────────────┘
-                                    ▼
-                         ┌──────────────────────┐
-                         │ Evaluation Results   │
-                         │                      │
-                         │ Scores               │
-                         │ Feedback             │
-                         │ Analytics            │
-                         │ Review History       │
-                         └──────────────────────┘
-```
-
----
-
-# Technology Stack
-
-<div align="center">
+## 🛠️ Technology Stack
 
 ### Frontend
-
-<a href="https://react.dev/">
-<img src="https://skillicons.dev/icons?i=react" width="60" />
-</a>
-<a href="https://vitejs.dev/">
-<img src="https://skillicons.dev/icons?i=vite" width="60" />
-</a>
-<a href="https://zustand-demo.pmnd.rs/">
-<img src="https://skillicons.dev/icons?i=zustand" width="60" />
-</a>
-
-<br/>
-
-**React 18 · Vite · Zustand · React Router · Vanilla CSS**
-
-<br/><br/>
+- **Framework**: React 18, Vite, React Router v6
+- **Styling**: Tailwind CSS, Vanilla CSS, Material Symbols & Remixicon
+- **State Management**: Zustand
+- **Animations**: Framer Motion
+- **HTTP Client**: Axios with automatic Render cold-start detection & warmup ping
+- **Testing**: Vitest + React Testing Library (43 unit & integration tests)
 
 ### Backend
+- **Runtime**: Node.js 20+ (CommonJS)
+- **Framework**: Express 5
+- **Multimodal AI**: Google Gemini API (`@google/genai`)
+- **PDF Extraction**: `pdf-parse` (instant local parsing)
+- **Database Client**: `@supabase/supabase-js` (PostgreSQL)
+- **Security**: JWT (`jsonwebtoken`), `bcryptjs`, `helmet`, `cors`, `express-rate-limit`
+- **Testing**: Node.js Native Test Runner (25 unit & API integration tests)
 
-<a href="https://nodejs.org/">
-<img src="https://skillicons.dev/icons?i=nodejs" width="60" />
-</a>
-<a href="https://expressjs.com/">
-<img src="https://skillicons.dev/icons?i=express" width="60" />
-</a>
-<a href="https://jwt.io/">
-<img src="https://skillicons.dev/icons?i=jwt" width="60" />
-</a>
-
-<br/>
-
-**Node.js · Express.js · JWT · Multer**
-
-<br/><br/>
-
-### Database & Infrastructure
-
-<a href="https://supabase.com/">
-<img src="https://skillicons.dev/icons?i=supabase" width="60" />
-</a>
-<a href="https://www.postgresql.org/">
-<img src="https://skillicons.dev/icons?i=postgres" width="60" />
-</a>
-
-<br/>
-
-**Supabase · PostgreSQL · Supabase Storage**
-
-<br/><br/>
-
-### AI
-
-<img src="https://img.shields.io/badge/Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" />
-
-**Multimodal Generative AI · Semantic Evaluation · Vision**
-
-</div>
+### Database & Cloud
+- **Database**: Supabase (PostgreSQL with RLS)
+- **Hosting**: Vercel (Client) & Render (Server)
 
 ---
 
-# Project Structure
+## 📁 Repository Structure
 
 ```text
-Evalify-Ai/
+AutoGradeAI/
 │
-├── client/
-│   │
+├── client/                     # Frontend Application (React + Vite)
+│   ├── public/                 # Static assets, logo.png, favicons
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── store/
-│   │   └── ...
-│   │
-│   ├── package.json
-│   └── ...
+│   │   ├── assets/             # Brand logos & vector artwork
+│   │   ├── components/         # Reusable UI components
+│   │   │   ├── evaluation/     # StudentDetailModal, ScoreCard, StatusBadge
+│   │   │   ├── layout/         # PublicNavbar, Navbar, Sidebar, Footer, Layout
+│   │   │   └── ui/             # Button, Spinner, Dropzone
+│   │   ├── context/            # ToastContext & Global State
+│   │   ├── hooks/              # useAuth, useExam, useQuota, useEvaluation
+│   │   ├── pages/              # Landing, Dashboard, CreateExam, Results, Exams, Pricing
+│   │   ├── services/           # Axios client & API service modules
+│   │   ├── store/              # Zustand stores (examStore, quotaStore)
+│   │   └── utils/              # format.js, parser helpers
+│   └── tests/                  # 43 Vitest unit & integration test suites
 │
-├── server/
-│   │
-│   ├── controllers/
-│   ├── routes/
-│   ├── services/
-│   ├── middleware/
-│   ├── utils/
-│   ├── uploads/
-│   ├── package.json
-│   └── ...
+├── server/                     # Backend Application (Node.js + Express)
+│   ├── src/
+│   │   ├── config/             # Supabase client, environment loader
+│   │   ├── controllers/        # auth, exam, evaluate, results, quota, analytics
+│   │   ├── middleware/         # auth (JWT + cache), errorHandler
+│   │   ├── models/             # exam, student, evaluation, result, quota
+│   │   ├── routes/             # REST API routing
+│   │   ├── services/           # geminiService, evaluationService, pdfService, exportService
+│   │   └── utils/              # logger, parser, promptBuilder
+│   ├── tests/                  # 25 Node.js test runner unit & integration test suites
+│   └── migrations/             # SQL schema migrations
 │
-├── LICENSE
-└── README.md
+├── supabase/                   # Supabase SQL schema & index optimizations
+│   ├── migrations/             # Core table migrations
+│   └── optimize_indexes.sql    # Composite index script for high query performance
+│
+├── render.yaml                 # Infrastructure configuration for Render
+├── README.md                   # Project documentation
+└── LICENSE                     # MIT License
 ```
 
 ---
 
-# Getting Started
+## 🚀 Getting Started
 
-## Requirements
+### Prerequisites
 
-Before running Evalify AI locally, install:
-
-| Requirement   | Version |
-| ------------- | ------- |
-| Node.js       | 18+     |
-| npm           | Latest  |
-| Supabase      | Project |
-| Google Gemini | API Key |
+- **Node.js**: v18.0.0 or higher (v20+ recommended)
+- **npm**: v9+
+- **Supabase Account**: A free project on [Supabase](https://supabase.com)
+- **Google AI Studio Key**: API key from [Google AI Studio](https://aistudio.google.com)
 
 ---
 
-## Clone
+### Installation & Setup
 
-```bash
-git clone https://github.com/Subha12125/Evalify-Ai.git
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Subha12125/AutoGradeAI.git
+   cd AutoGradeAI
+   ```
 
-cd Evalify-Ai
-```
+2. **Configure the Backend Server:**
+   ```bash
+   cd server
+   npm install
+   ```
+   Create a `.env` file inside the `server/` directory:
+   ```env
+   PORT=5000
+   NODE_ENV=development
+   CLIENT_URL=http://localhost:5173
+   
+   # Supabase Configuration
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_SERVICE_KEY=your-supabase-service-role-key
+   
+   # Google Gemini API
+   GEMINI_API_KEY=your-gemini-api-key
+   
+   # Authentication
+   JWT_SECRET=your-random-jwt-secret-string
+   ```
+
+3. **Configure Database Schema & Indexes:**
+   - In your [Supabase Dashboard](https://supabase.com/dashboard), navigate to the **SQL Editor**.
+   - Execute the tables migration in `supabase/migrations/001_create_tables.sql`.
+   - Execute the quota migration in `server/migrations/002_quota_subscriptions.sql`.
+   - Execute the performance index script in `supabase/optimize_indexes.sql`.
+
+4. **Configure the Frontend Client:**
+   ```bash
+   cd ../client
+   npm install
+   ```
+   Create a `.env` file inside the `client/` directory:
+   ```env
+   VITE_API_URL=http://localhost:5000/api
+   ```
 
 ---
 
-## Backend
+### Running Locally
+
+Start both servers in separate terminals:
 
 ```bash
+# Terminal 1: Backend Server (runs on http://localhost:5000)
 cd server
-
-npm install
-```
-
-Create:
-
-```text
-server/.env
-```
-
-Configure:
-
-```env
-PORT=5000
-
-SUPABASE_URL=your_supabase_project_url
-SUPABASE_SERVICE_KEY=your_service_role_key
-
-GEMINI_API_KEY=your_google_gemini_api_key
-
-JWT_SECRET=your_secure_random_secret
-
-CLIENT_URL=http://localhost:5173
-```
-
-Start the backend:
-
-```bash
 npm run dev
-```
 
----
-
-## Frontend
-
-Open another terminal:
-
-```bash
+# Terminal 2: Frontend Web App (runs on http://localhost:5173)
 cd client
-
-npm install
-```
-
-Create:
-
-```text
-client/.env
-```
-
-Configure:
-
-```env
-VITE_API_URL=http://localhost:5000
-```
-
-Start the frontend:
-
-```bash
 npm run dev
 ```
 
-Then open the local URL displayed by Vite.
+Open `http://localhost:5173` in your browser.
 
 ---
 
-# Environment Variables
+## 🧪 Testing Suite
 
-### Server
+AutoGrade AI comes with a comprehensive test suite across the client and server.
 
-| Variable               | Purpose                  |
-| ---------------------- | ------------------------ |
-| `PORT`                 | Backend server port      |
-| `SUPABASE_URL`         | Supabase project URL     |
-| `SUPABASE_SERVICE_KEY` | Server-side Supabase key |
-| `GEMINI_API_KEY`       | Gemini API access        |
-| `JWT_SECRET`           | JWT signing secret       |
-| `CLIENT_URL`           | Frontend application URL |
+```bash
+# Run Client Vitest Suites (43 tests)
+cd client
+npm test -- --run
 
-### Client
+# Run Backend Integration & Unit Tests (25 tests)
+cd server
+npm test
 
-| Variable       | Purpose         |
-| -------------- | --------------- |
-| `VITE_API_URL` | Backend API URL |
-
-> **Never commit `.env` files or credentials to GitHub.**
-
----
-
-# API Reference
-
-## Authentication
-
-| Method | Endpoint             | Description   |
-| ------ | -------------------- | ------------- |
-| POST   | `/api/auth/register` | Register user |
-| POST   | `/api/auth/login`    | Login user    |
-
-## Exams
-
-| Method | Endpoint             | Description   |
-| ------ | -------------------- | ------------- |
-| POST   | `/api/exams`         | Create exam   |
-| GET    | `/api/exams/:examId` | Retrieve exam |
-
-## Evaluation
-
-| Method | Endpoint                   | Description                     |
-| ------ | -------------------------- | ------------------------------- |
-| POST   | `/api/evaluate`            | Upload and evaluate submissions |
-| GET    | `/api/evaluate/status/:id` | Evaluation progress             |
-
-## Results
-
-| Method | Endpoint                      | Description           |
-| ------ | ----------------------------- | --------------------- |
-| GET    | `/api/results/:examId`        | Retrieve results      |
-| POST   | `/api/results/:examId/review` | Review/update results |
-
-Protected requests use:
-
-```http
-Authorization: Bearer <JWT>
+# Run Production Frontend Build
+cd client
+npm run build
 ```
 
 ---
 
-# Data Model
+## 📡 API Endpoints
 
-```text
-                    ┌─────────────┐
-                    │    User     │
-                    └──────┬──────┘
-                           │
-                           ▼
-                    ┌─────────────┐
-                    │    Exam     │
-                    └──────┬──────┘
-                           │
-                 ┌─────────┴─────────┐
-                 ▼                   ▼
-          ┌─────────────┐     ┌──────────────┐
-          │  Questions  │     │ Submissions  │
-          └──────┬──────┘     └──────┬───────┘
-                 │                   │
-                 │                   ▼
-                 │            ┌──────────────┐
-                 └───────────►│ Evaluations  │
-                              └──────┬───────┘
-                                     │
-                          ┌──────────┼──────────┐
-                          ▼          ▼          ▼
-                        Score    Feedback    Reasoning
-```
-
-### Main Entities
-
-```text
-users
-exams
-questions
-submissions
-evaluations
-```
-
----
-
-# Security
-
-Evalify AI is designed with security considerations for academic data.
+### Health & Monitoring
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/health` | Service health status | Public |
+| `GET` | `/api/health/gemini` | Gemini API connectivity check | Public |
 
 ### Authentication
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Register new faculty account | Public |
+| `POST` | `/api/auth/login` | Authenticate and obtain JWT token | Public |
 
-JWT-based authentication protects application resources.
+### Exams Management
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/exams` | Get all exams created by faculty | Bearer JWT |
+| `POST` | `/api/exams` | Create exam with question paper & rubric | Bearer JWT |
+| `GET` | `/api/exams/:id` | Fetch exam metadata | Bearer JWT |
+| `DELETE`| `/api/exams/:id` | Delete exam and associated sheets | Bearer JWT |
 
-### Secret Management
+### Evaluation Engine
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/evaluate` | Upload answer sheets & trigger AI batch evaluation | Bearer JWT |
+| `GET` | `/api/evaluate/status/:examId` | Real-time batch evaluation progress | Bearer JWT |
 
-Sensitive credentials are stored through environment variables.
+### Results & Insights
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/results/:examId` | Fetch exam results, scores & in-memory statistics | Bearer JWT |
+| `GET` | `/api/results/:examId/export?format=csv` | Export results as formatted CSV | Bearer JWT |
 
-### File Validation
-
-Uploaded documents should be validated by:
-
-```text
-File Type
-   +
-File Size
-   +
-Authentication
-   +
-Authorization
-```
-
-### Data Protection
-
-The system should avoid exposing student answers or personally identifiable information through logs.
-
-### Server-Side Secrets
-
-Supabase service-role credentials and Gemini API keys must remain server-side.
-
----
-
-# Human-in-the-Loop Design
-
-AI-generated evaluations should not automatically become the final academic decision.
-
-Evalify AI therefore follows:
-
-```text
-             AI Evaluation
-                   │
-                   ▼
-            Generated Score
-                   │
-                   ▼
-            Faculty Review
-                   │
-             ┌─────┴─────┐
-             │           │
-             ▼           ▼
-          Approve      Modify
-             │           │
-             └─────┬─────┘
-                   ▼
-             Final Result
-```
-
-This approach combines **automation with educator oversight**.
+### Quotas & Billing
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/quota` | Get user evaluation quota & active plan | Bearer JWT |
+| `POST` | `/api/quota/promo` | Apply promo code (e.g. `OPENFREE`) | Bearer JWT |
 
 ---
 
-# Analytics
+## 🚀 Deployment
 
-Evalify AI can provide structured academic insights such as:
+### Frontend (Vercel)
+The client is configured for Vercel out of the box with `client/vercel.json` rewrites for single-page routing:
+- **Build Command**: `cd client && npm run build`
+- **Output Directory**: `client/dist`
+- **Environment Variable**: `VITE_API_URL=https://autogradeai-8xtf.onrender.com/api`
 
-```text
-                 CLASS PERFORMANCE
-                        │
-        ┌───────────────┼───────────────┐
-        ▼               ▼               ▼
-   Average Score    Question Stats   Student Stats
-        │               │               │
-        ▼               ▼               ▼
-   Class Trends     Weak Topics     Individual Growth
-```
-
-Potential analytics include:
-
-* Average score
-* Question-wise performance
-* Student performance
-* Common mistakes
-* Weak concepts
-* Score distribution
-* Performance trends
+### Backend (Render)
+Configured using `render.yaml`:
+- **Build Command**: `cd server && npm install`
+- **Start Command**: `cd server && npm start`
+- **Health Check Path**: `/api/health`
 
 ---
 
-# Example Result
+## 📄 License
 
-```text
-Student
-────────────────────────────────
-Name              Student A
-
-Overall Score     82 / 100
-Percentage        82%
-
-Question Analysis
-────────────────────────────────
-
-Q1    9 / 10
-      Correct concept with minor omission.
-
-Q2    7 / 10
-      Good explanation but incomplete example.
-
-Q3    10 / 10
-      Complete and accurate answer.
-
-Q4    6 / 10
-      Core concept understood but implementation
-      details are missing.
-```
-
----
-
-# Development Workflow
-
-```text
-Developer
-    │
-    ▼
-Feature Branch
-    │
-    ▼
-Implementation
-    │
-    ▼
-Testing
-    │
-    ▼
-Linting
-    │
-    ▼
-Pull Request
-    │
-    ▼
-Code Review
-    │
-    ▼
-Merge
-```
-
-Create a feature branch:
-
-```bash
-git checkout -b feature/<feature-name>
-```
-
-Run tests:
-
-```bash
-npm test
-```
-
-Commit:
-
-```bash
-git add .
-git commit -m "feat: add <feature>"
-```
-
-Push:
-
-```bash
-git push origin feature/<feature-name>
-```
-
----
-
-# Testing
-
-### Backend
-
-```bash
-cd server
-npm test
-```
-
-### Frontend
-
-```bash
-cd client
-npm test
-```
-
-### Integration Flow
-
-```text
-Upload
-  ↓
-Processing
-  ↓
-OCR
-  ↓
-AI Evaluation
-  ↓
-Database
-  ↓
-Results
-  ↓
-Review
-  ↓
-Export
-```
-
----
-
-# Deployment Architecture
-
-```text
-                         Internet
-                            │
-                            ▼
-                    ┌───────────────┐
-                    │   Frontend    │
-                    │ React / Vite  │
-                    └───────┬───────┘
-                            │
-                            ▼
-                    ┌───────────────┐
-                    │    Backend    │
-                    │ Node / Express│
-                    └───────┬───────┘
-                            │
-              ┌─────────────┼─────────────┐
-              │                           │
-              ▼                           ▼
-       ┌──────────────┐           ┌──────────────┐
-       │   Supabase   │           │ Gemini API   │
-       │              │           │              │
-       │ PostgreSQL   │           │ AI Evaluation│
-       │ Storage      │           │ Vision       │
-       └──────────────┘           └──────────────┘
-```
-
-For larger deployments, background processing can be introduced using:
-
-```text
-Node.js
-   │
-   ▼
-Redis
-   │
-   ▼
-BullMQ
-   │
-   ▼
-Evaluation Workers
-   │
-   ▼
-Gemini API
-```
-
----
-
-# Roadmap
-
-```text
-Completed
-─────────
-✓ Core authentication
-✓ Exam management
-✓ Answer-sheet upload
-✓ AI evaluation flow
-✓ Live evaluation status
-✓ Result management
-
-
-Planned
-───────
-□ Advanced OCR preprocessing
-□ Improved handwriting recognition
-□ Background evaluation workers
-□ Redis + BullMQ
-□ Question confidence scoring
-□ Advanced analytics
-□ Custom teacher rubrics
-□ Student performance history
-□ AI improvement recommendations
-□ WebSocket-based live updates
-□ Docker deployment
-□ Automated CI/CD
-```
-
----
-
-# Project Status
-
-<div align="center">
-
-<img src="https://img.shields.io/badge/Version-1.1.0-6366F1?style=for-the-badge" />
-<img src="https://img.shields.io/badge/Status-Active%20Development-22C55E?style=for-the-badge" />
-
-</div>
-
-Evalify AI is currently under active development.
-
-The architecture and features may evolve as the platform grows.
-
----
-
-# Contributing
-
-Contributions are welcome.
-
-### Guidelines
-
-* Keep commits focused.
-* Use descriptive commit messages.
-* Add tests for important changes.
-* Update documentation when APIs change.
-* Never commit secrets.
-* Follow the existing project structure.
-
----
-
-# License
-
-This project is distributed under the **MIT License**.
-
-See [`LICENSE`](LICENSE) for details.
-
----
-
-# Maintainer
-
-<div align="center">
-
-### Subha12125
-
-<a href="https://github.com/Subha12125">
-<img src="https://img.shields.io/badge/GitHub-Subha12125-181717?style=for-the-badge&logo=github" />
-</a>
-
-<br/><br/>
-
-<a href="https://github.com/Subha12125/Evalify-Ai">
-<img src="https://img.shields.io/badge/View%20Repository-Evalify%20AI-6366F1?style=for-the-badge&logo=github" />
-</a>
-
-</div>
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <div align="center">
 
-<a href="https://github.com/Subha12125/Evalify-Ai">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:06b6d4,50:8b5cf6,100:6366f1&height=140&section=footer" width="100%" />
+**AutoGrade AI** • *Built with ❤️ for modern educators and universities worldwide.*
+
+<br/>
+
+<a href="https://github.com/Subha12125/AutoGradeAI">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:06b6d4,50:4f46e5,100:2563eb&height=120&section=footer" width="100%" />
 </a>
-
-### Evalify AI
-
-**Intelligent assessment. Structured evaluation. Better insights.**
-
-Built with React · Node.js · Supabase · Google Gemini
 
 </div>
