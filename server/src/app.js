@@ -41,8 +41,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static uploads (if needed for debug)
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
-// API routes
+// API routes (mounted on /api and root / for resilience against URL misconfigurations)
 app.use('/api', routes);
+app.use('/', routes);
 
 // 404 handler
 app.use((req, res) => {
