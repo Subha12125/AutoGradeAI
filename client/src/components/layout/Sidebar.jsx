@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import autoGradeLogo from '../../assets/AutoGrade Ai.png';
+import logo from '../../assets/logo.png';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -20,8 +20,14 @@ const Sidebar = ({ isOpen, onClose }) => {
     <aside className={`fixed top-0 left-0 h-full w-64 bg-surface-container-lowest z-50 transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
       <div className="p-6 flex flex-col h-full overflow-y-auto">
         {/* Logo */}
-        <div className="flex items-center justify-center mb-6 px-2">
-          <img src={autoGradeLogo} alt="AutoGrade Ai Logo" className="w-28 h-auto object-contain drop-shadow-lg" />
+        <div 
+          onClick={() => navigate('/dashboard')}
+          className="flex items-center gap-3 mb-6 px-2 cursor-pointer group select-none"
+        >
+          <img src={logo} alt="AutoGrade Ai Logo" className="w-9 h-9 object-contain rounded-xl drop-shadow-sm transition-transform duration-300 group-hover:scale-105" />
+          <span className="font-headline font-black text-lg tracking-tight text-on-surface">
+            AutoGrade <span className="text-primary font-black">AI</span>
+          </span>
         </div>
 
         {/* Nav Links */}

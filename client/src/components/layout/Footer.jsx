@@ -1,5 +1,5 @@
 import React from 'react';
-import autoGradeLogo from '../../assets/AutoGrade Ai.png';
+import logo from '../../assets/logo.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="w-full py-6 sm:py-8 px-4 sm:px-8 border-t border-outline-variant/10 bg-white/50 backdrop-blur-md">
       <div className="flex flex-col items-center gap-4 sm:gap-6 md:flex-row md:justify-between">
         <div className="flex items-center gap-3">
-          <img src={autoGradeLogo} alt="AutoGrade Ai Logo" className="w-10 h-10 object-contain" />
+          <img src={logo} alt="AutoGrade Ai Logo" className="w-9 h-9 object-contain rounded-lg drop-shadow-sm" />
           <span className="font-headline font-black text-on-surface tracking-tight">AutoGrade Ai</span>
         </div>
         

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import autoGradeLogo from '../../assets/AutoGrade Ai.png';
+import logo from '../../assets/logo.png';
 
 const PublicNavbar = ({ onPricingClick }) => {
   const navigate = useNavigate();
@@ -67,9 +67,9 @@ const PublicNavbar = ({ onPricingClick }) => {
         >
           <div className="relative">
             <img
-              src="/assets/logo.png"
+              src={logo}
               alt="AutoGrade Ai Logo"
-              className="h-8 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-sm"
+              className="h-8 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-sm rounded-lg"
             />
             {/* Subtle glow behind logo */}
             <div className="absolute inset-0 bg-primary/20 blur-md rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PublicNavbar from '../components/layout/PublicNavbar';
 import Button from '../components/ui/Button';
-import autoGradeLogo from '../assets/AutoGrade Ai.png';
 
 const PublicPricing = () => {
   const navigate = useNavigate();

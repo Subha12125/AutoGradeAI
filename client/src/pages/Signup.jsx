@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../hooks/useAuth';
-import autoGradeLogo from '../assets/AutoGrade Ai.png';
+import logo from '../assets/logo.png';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ const Signup = () => {
 
       <main className="w-full max-w-md px-6 z-10">
         <div className="flex flex-col items-center mb-8">
-          <img src={autoGradeLogo} alt="AutoGrade Ai Logo" className="w-32 h-32 mb-6 object-contain drop-shadow-lg" />
+          <img src={logo} alt="AutoGrade Ai Logo" className="w-20 h-20 mb-5 object-contain rounded-2xl drop-shadow-lg" />
           <h1 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2 font-headline">AutoGrade Ai</h1>
           <p className="text-on-surface-variant font-medium text-sm text-center">Join the future of academic assessment</p>
         </div>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../components/ui/Button';
 import { useToast } from '../context/ToastContext';
-import autoGradeLogo from '../assets/AutoGrade Ai.png';
+import logo from '../assets/logo.png';
 import PublicNavbar from '../components/layout/PublicNavbar';
 
 const fadeInUp = {
@@ -60,7 +60,6 @@ const Landing = () => {
           <div className="absolute top-40 left-1/2 -translate-x-1/2 w-[260px] h-[260px] bg-tertiary/10 rounded-full blur-[70px]" />
         </div>
 
-
         {/* Hero Title */}
         <motion.h1 
           initial={{ opacity: 0, y: 25 }}
@@ -90,26 +89,27 @@ const Landing = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md px-2 mb-12 sm:mb-16"
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xl px-4 mb-12 sm:mb-16"
         >
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-1">
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
             <Button 
               onClick={() => navigate('/signup')} 
               size="lg" 
-              className="w-full shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all text-sm sm:text-base font-bold"
+              className="w-full sm:w-auto h-12 sm:h-13 whitespace-nowrap shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all text-sm sm:text-base font-bold rounded-2xl px-6 sm:px-8 flex items-center justify-center gap-2"
             >
-              Start Evaluating Free
+              <span>Start Evaluating Free</span>
+              <span className="material-symbols-outlined text-lg">arrow_forward</span>
             </Button>
           </motion.div>
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="flex-1">
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
             <Button 
               onClick={handleWatchDemo} 
               variant="outline" 
               size="lg" 
-              className="w-full border-outline-variant bg-surface hover:bg-surface-container text-sm sm:text-base transition-all font-semibold"
+              className="w-full sm:w-auto h-12 sm:h-13 whitespace-nowrap border-outline-variant/70 bg-white hover:bg-slate-50 text-slate-800 text-sm sm:text-base transition-all font-bold rounded-2xl px-6 sm:px-8 shadow-sm flex items-center justify-center gap-2"
             >
-              <span className="material-symbols-outlined text-secondary text-xl">play_circle</span>
-              Watch Demo
+              <span className="material-symbols-outlined text-primary text-xl">play_circle</span>
+              <span>Watch Demo</span>
             </Button>
           </motion.div>
         </motion.div>
@@ -987,16 +987,17 @@ const Landing = () => {
               Ready to Grade 10x Faster?
             </h2>
             <p className="text-white/85 text-base sm:text-lg max-w-xl mx-auto mb-8 font-normal">
-              Join forward-thinking educators and institutions using Evalify AI to automate evaluations with human-grade precision.
+              Join forward-thinking educators and institutions using AutoGrade AI to automate evaluations with human-grade precision.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-3.5 justify-center max-w-lg mx-auto">
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }}>
                 <Button 
                   onClick={() => navigate('/signup')} 
                   size="lg" 
-                  className="w-full sm:w-auto bg-white text-primary hover:bg-slate-50 shadow-xl font-bold text-sm sm:text-base px-8"
+                  className="w-full sm:w-auto h-12 sm:h-13 whitespace-nowrap bg-white text-primary hover:bg-slate-50 shadow-xl font-bold text-sm sm:text-base px-8 rounded-2xl flex items-center justify-center gap-2"
                 >
-                  Start Evaluating Free
+                  <span>Start Evaluating Free</span>
+                  <span className="material-symbols-outlined text-lg">arrow_forward</span>
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }}>
@@ -1004,9 +1005,10 @@ const Landing = () => {
                   onClick={scrollToPricing} 
                   variant="outline" 
                   size="lg" 
-                  className="w-full sm:w-auto border-white/40 text-white hover:bg-white/10 text-sm sm:text-base font-bold px-8"
+                  className="w-full sm:w-auto h-12 sm:h-13 whitespace-nowrap border-white/40 text-white hover:bg-white/10 text-sm sm:text-base font-bold px-8 rounded-2xl flex items-center justify-center gap-2"
                 >
-                  View Plans & Pricing
+                  <span>View Plans & Pricing</span>
+                  <span className="material-symbols-outlined text-lg">payments</span>
                 </Button>
               </motion.div>
             </div>
@@ -1018,9 +1020,9 @@ const Landing = () => {
       <footer className="py-12 sm:py-16 px-4 sm:px-8 border-t border-outline-variant/60 bg-surface">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <img src={autoGradeLogo} alt="AutoGrade Ai Logo" className="h-10 w-auto object-contain" />
+            <img src={logo} alt="AutoGrade Ai Logo" className="h-9 w-9 object-contain rounded-xl drop-shadow-sm" />
             <div>
-              <span className="font-headline font-black text-lg text-on-surface">Evalify AI</span>
+              <span className="font-headline font-black text-lg text-on-surface">AutoGrade AI</span>
               <p className="text-xs text-on-surface-variant">Automated Answer Sheet Evaluation Platform</p>
             </div>
           </div>
