@@ -17,26 +17,33 @@ export const useExam = () => {
     deleteExam
   } = useExamStore();
 
-  const fetchExams = useCallback(async () => {
-    setLoading(true);
+  const fetchExams = useCallback(async (force = false) => {
+    const existing = useExamStore.getState().exams;
+    if (!existing || existing.length === 0 || force) {
+      setLoading(true);
+    }
     setError(null);
     try {
       const data = await examService.getExams();
       setExams(data.exams || []);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch exams');
-      setExams([]);
+      if (!existing || existing.length === 0) setExams([]);
     } finally {
       setLoading(false);
     }
   }, [setLoading, setExams, setError]);
 
   const fetchExamById = useCallback(async (id) => {
-    setLoading(true);
+    const current = useExamStore.getState().currentExam;
+    if (!current || current.id !== id) {
+      setLoading(true);
+    }
     try {
       const data = await examService.getExamById(id);
-      setCurrentExam(data.exam || data);
-      return data;
+      const examData = data.exam || data;
+      setCurrentExam(examData);
+      return examData;
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch exam');
     } finally {

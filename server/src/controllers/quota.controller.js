@@ -10,13 +10,13 @@ const FREE_DAILY_LIMIT = 3;
 async function getQuota(req, res, next) {
   try {
     const quota = await QuotaModel.checkQuota(req.user.id);
-    const subscription = await QuotaModel.getSubscription(req.user.id);
+    const subscription = quota.subscription;
 
     res.json({
       ...quota,
       plan: quota.plan || (subscription ? subscription.plan : 'free'),
       subscribed: !!subscription,
-      expiresAt: subscription?.expires_at || null,
+      expiresAt: quota.expiresAt || subscription?.expires_at || null,
     });
   } catch (err) {
     // If tables don't exist yet, return free tier defaults

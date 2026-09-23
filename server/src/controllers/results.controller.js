@@ -1,5 +1,6 @@
 const ResultModel = require('../models/result.model');
 const ExportService = require('../services/exportService');
+const supabase = require('../config/supabase');
 
 /**
  * GET /api/results/:examId
@@ -8,19 +9,31 @@ async function getResults(req, res, next) {
   try {
     const { examId } = req.params;
 
-    // Get successful results
-    const results = await ResultModel.findByExam(examId);
-    const stats = await ResultModel.getExamStats(examId);
-
-    // Get failed evaluations to display as failed results
-    const { data: evaluations, error: evalError } = await require('../config/supabase')
-      .from('evaluations')
-      .select('*, students(*)')
-      .eq('exam_id', examId)
-      .eq('status', 'failed');
+    // Fetch successful results and failed evaluations concurrently in parallel
+    const [results, { data: evaluations, error: evalError }] = await Promise.all([
+      ResultModel.findByExam(examId),
+      supabase
+        .from('evaluations')
+        .select('*, students(*)')
+        .eq('exam_id', examId)
+        .eq('status', 'failed')
+    ]);
 
     if (evalError) {
       throw evalError;
+    }
+
+    // Compute stats in-memory instantly (0ms) instead of making an extra roundtrip to Supabase
+    let stats = null;
+    if (results && results.length > 0) {
+      const marks = results.map(r => r.total_marks_awarded ?? 0);
+      stats = {
+        totalStudents: results.length,
+        average: Number((marks.reduce((a, b) => a + b, 0) / marks.length).toFixed(1)),
+        highest: Math.max(...marks),
+        lowest: Math.min(...marks),
+        maxMarks: results[0]?.total_max_marks || 100,
+      };
     }
 
     // Map failed evaluations to results format
@@ -43,6 +56,8 @@ async function getResults(req, res, next) {
       marksAwarded: r.total_marks_awarded,
       maxMarks: r.total_max_marks,
       feedback: r.overall_feedback,
+      overallFeedback: r.overall_feedback,
+      questionResults: r.question_results || [],
       createdAt: r.created_at,
       status: 'completed'
     }));

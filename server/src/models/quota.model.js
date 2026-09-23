@@ -9,7 +9,22 @@ const PLAN_LIMITS = {
   advanced: 1200,
 };
 
+// In-memory cache for user quota status (30s TTL) to eliminate redundant Supabase queries
+const quotaCache = new Map();
+const QUOTA_CACHE_TTL = 30 * 1000;
+
 const QuotaModel = {
+  /**
+   * Invalidate cached quota for a user.
+   */
+  invalidate(userId) {
+    if (userId) {
+      quotaCache.delete(userId);
+    } else {
+      quotaCache.clear();
+    }
+  },
+
   /**
    * Get today's usage count for a user.
    * Counts evaluations created today for exams owned by this user.
@@ -62,6 +77,9 @@ const QuotaModel = {
    * Apply a promo code for a user.
    */
   async applyPromo(userId, code) {
+    // Invalidate cached quota on change
+    this.invalidate(userId);
+
     // Validate promo code
     const { data: promo, error: promoError } = await supabase
       .from('promo_codes')
@@ -147,17 +165,24 @@ const QuotaModel = {
         limit: PLAN_LIMITS[sub.plan] || sub.daily_limit || 150,
         plan: sub.plan,
         isMonthly: true,
+        subscription: sub,
       };
     }
-    return { limit: FREE_DAILY_LIMIT, plan: 'free', isMonthly: false };
+    return { limit: FREE_DAILY_LIMIT, plan: 'free', isMonthly: false, subscription: null };
   },
 
   /**
    * Check if user can evaluate (has remaining quota).
    * Free tier: daily check. Paid plans: monthly check.
-   * Returns { allowed, used, limit, remaining, plan, isMonthly }
+   * Returns { allowed, used, limit, remaining, plan, isMonthly, subscription, expiresAt }
    */
   async checkQuota(userId) {
+    // Check in-memory cache first (0ms latency, immune to Supabase delay)
+    const cached = quotaCache.get(userId);
+    if (cached && cached.expiresAt > Date.now()) {
+      return cached.data;
+    }
+
     const limitInfo = await this.getLimit(userId);
 
     // Free tier uses daily usage, paid uses monthly
@@ -165,14 +190,23 @@ const QuotaModel = {
       ? await this.getMonthUsage(userId)
       : await this.getTodayUsage(userId);
 
-    return {
+    const result = {
       allowed: used < limitInfo.limit,
       used,
       limit: limitInfo.limit,
       remaining: Math.max(0, limitInfo.limit - used),
       plan: limitInfo.plan,
       isMonthly: limitInfo.isMonthly,
+      subscription: limitInfo.subscription || null,
+      expiresAt: limitInfo.subscription ? limitInfo.subscription.expires_at : null,
     };
+
+    quotaCache.set(userId, {
+      data: result,
+      expiresAt: Date.now() + QUOTA_CACHE_TTL,
+    });
+
+    return result;
   },
 };
 

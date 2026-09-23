@@ -105,19 +105,42 @@ function parseEvaluationResponse(rawText) {
 
 /**
  * Extracts student info from PDF text or filename.
+ * Handles patterns like:
+ * - "Priyam_Kumar_Mishra_Answer.pdf" -> Name: "Priyam Kumar Mishra"
+ * - "21BCE1002_Priyam_Mishra.pdf" -> Roll: "21BCE1002", Name: "Priyam Mishra"
+ * - "John_Doe.pdf" -> Name: "John Doe"
  */
 function extractStudentInfo(filename) {
-  // Try to extract roll number / name from filename pattern: "RollNo_Name.pdf"
-  const match = filename.replace(/\.pdf$/i, '').match(/^(\w+)_(.+)$/);
+  // Strip file extension after trimming surrounding whitespace
+  let clean = (filename || '').trim().replace(/\.(pdf|jpe?g|png|webp)$/i, '').trim();
 
-  if (match) {
-    return { rollNumber: match[1], name: match[2].replace(/_/g, ' ') };
+  // Strip common suffixes like _Answer, _AnswerSheet, _Sheet, _Submission, _Exam
+  clean = clean.replace(/[_-]?(?:answers?(?:[-_]?sheet)?|submissions?|exam|paper|scan)$/i, '').trim();
+
+  // Check for separator between roll number and name
+  const parts = clean.split(/[_-]/).filter(Boolean);
+
+  if (parts.length >= 2) {
+    const isFirstRoll = /^([A-Z]{0,4}\d{2,}[A-Z0-9]*|\d+)$/i.test(parts[0]);
+    const isLastRoll = /^([A-Z]{0,4}\d{2,}[A-Z0-9]*|\d+)$/i.test(parts[parts.length - 1]);
+
+    if (isFirstRoll && !isLastRoll) {
+      return {
+        rollNumber: parts[0],
+        name: parts.slice(1).join(' '),
+      };
+    } else if (isLastRoll && !isFirstRoll) {
+      return {
+        rollNumber: parts[parts.length - 1],
+        name: parts.slice(0, -1).join(' '),
+      };
+    }
   }
 
-  // Fallback: use filename as identifier
+  const formattedName = clean.replace(/[_-]+/g, ' ').trim();
   return {
-    rollNumber: filename.replace(/\.pdf$/i, ''),
-    name: filename.replace(/\.pdf$/i, ''),
+    rollNumber: clean ? clean.replace(/\s+/g, '_') : 'N/A',
+    name: formattedName || 'Student',
   };
 }
 

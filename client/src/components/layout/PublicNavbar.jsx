@@ -67,7 +67,7 @@ const PublicNavbar = ({ onPricingClick }) => {
         >
           <div className="relative">
             <img
-              src={autoGradeLogo}
+              src="/assets/logo.png"
               alt="AutoGrade Ai Logo"
               className="h-8 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-sm"
             />

@@ -32,6 +32,9 @@ async function startEvaluation(req, res, next) {
 
     logger.info(`Starting evaluation for exam ${examId} with ${req.files.length} answer sheets`);
 
+    // Invalidate quota cache for this user since evaluations are being used
+    QuotaModel.invalidate(req.user.id);
+
     // Process in background - do not await
     EvaluationService.processBatch(examId, req.files)
       .then(result => {
