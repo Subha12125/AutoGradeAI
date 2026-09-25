@@ -14,6 +14,7 @@ const Support = () => {
   const [submitting, setSubmitting] = useState(false);
   const [ticketSubmitted, setTicketSubmitted] = useState(null);
 
+  const [attachedFile, setAttachedFile] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -92,16 +93,17 @@ const Support = () => {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 15 * 1024 * 1024) {
-        addToast('File too large. Maximum attachment size is 15MB.', 'error');
+      if (file.size > 10 * 1024 * 1024) {
+        addToast('File too large. Maximum attachment size is 10MB.', 'error');
         return;
       }
+      setAttachedFile(file);
       setFormData((prev) => ({ ...prev, fileName: file.name }));
       addToast(`Attached ${file.name}`, 'info');
     }
   };
 
-  const handleSubmitTicket = (e) => {
+  const handleSubmitTicket = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
       addToast('Please complete all required fields.', 'error');
@@ -109,22 +111,53 @@ const Support = () => {
     }
 
     setSubmitting(true);
-    // Simulate support ticket dispatch
-    setTimeout(() => {
-      const ticketId = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+    const ticketId = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    try {
+      const payload = new FormData();
+      payload.append('ticket_id', ticketId);
+      payload.append('name', formData.name);
+      payload.append('email', formData.email);
+      payload.append('institution', formData.institution || 'Not specified');
+      payload.append('category', formData.category);
+      payload.append('priority', formData.priority);
+      payload.append('subject', formData.subject);
+      payload.append('message', formData.message);
+      if (attachedFile) {
+        payload.append('attachment', attachedFile);
+      }
+
+      const res = await fetch('https://formspree.io/f/xzezvklr', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: payload,
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || 'Failed to submit support ticket.');
+      }
+
       setTicketSubmitted({
         id: ticketId,
         subject: formData.subject,
         email: formData.email,
         priority: formData.priority,
       });
-      setSubmitting(false);
       addToast(`Support ticket ${ticketId} created successfully!`, 'success');
-    }, 900);
+    } catch (err) {
+      console.error('Support ticket submission error:', err);
+      addToast(err.message || 'Error submitting ticket. Please email connectautogradeai@gmail.com directly.', 'error');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleResetForm = () => {
     setTicketSubmitted(null);
+    setAttachedFile(null);
     setFormData({
       name: '',
       email: '',
@@ -313,7 +346,7 @@ const Support = () => {
                 Direct Technical Assistance
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                Typical response time: under 2 hours during active exam cycles.
+                Forwarded directly to <span className="font-semibold text-slate-700">connectautogradeai@gmail.com</span> • Typical response time: under 2 hours.
               </p>
             </div>
 
@@ -510,10 +543,10 @@ const Support = () => {
                 Send answer keys, bulk evaluation requests, or custom grading rubrics directly to our academic team.
               </p>
               <a
-                href="mailto:support@autogradeai.com"
+                href="mailto:connectautogradeai@gmail.com"
                 className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
               >
-                <span>support@autogradeai.com</span>
+                <span>connectautogradeai@gmail.com</span>
                 <i className="ri-arrow-right-up-line" />
               </a>
             </div>

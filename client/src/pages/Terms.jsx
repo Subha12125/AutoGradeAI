@@ -323,7 +323,7 @@ const Terms = () => {
               </p>
               <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-2 text-xs sm:text-sm">
                 <p><strong>AutoGrade AI Legal Affairs</strong></p>
-                <p className="text-slate-600">Email: <a href="mailto:legal@autogradeai.com" className="text-secondary font-bold hover:underline">legal@autogradeai.com</a></p>
+                <p className="text-slate-600">Email: <a href="mailto:connectautogradeai@gmail.com" className="text-secondary font-bold hover:underline">connectautogradeai@gmail.com</a></p>
                 <p className="text-slate-600">Institutional Licensing: <button onClick={() => navigate('/support')} className="text-secondary font-bold hover:underline">autogradeai.com/support</button></p>
               </div>
             </div>

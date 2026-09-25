@@ -366,7 +366,7 @@ const Privacy = () => {
               </p>
               <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-2 text-xs sm:text-sm">
                 <p><strong>AutoGrade AI Security & Compliance Office</strong></p>
-                <p className="text-slate-600">Email: <a href="mailto:privacy@autogradeai.com" className="text-primary font-bold hover:underline">privacy@autogradeai.com</a></p>
+                <p className="text-slate-600">Email: <a href="mailto:connectautogradeai@gmail.com" className="text-primary font-bold hover:underline">connectautogradeai@gmail.com</a></p>
                 <p className="text-slate-600">Support Desk: <button onClick={() => navigate('/support')} className="text-primary font-bold hover:underline">autogradeai.com/support</button></p>
                 <p className="text-slate-500 text-xs">Response SLA for academic compliance queries: within 24 business hours.</p>
               </div>
