@@ -174,7 +174,7 @@ const Landing = () => {
                 <span className="w-3 h-3 rounded-full bg-amber-400 inline-block" />
                 <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
                 <span className="text-xs font-mono font-bold text-on-surface-variant ml-2 hidden sm:inline">
-                  evalify-vision-agent • exam_physics_final_q3.pdf
+                  autograde-vision-agent • exam_physics_final_q3.pdf
                 </span>
               </div>
 
@@ -613,7 +613,7 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Comparison Section: Manual Grading vs Evalify AI */}
+      {/* Comparison Section: Manual Grading vs AutoGrade AI */}
       <section className="py-20 sm:py-24 px-4 sm:px-6 bg-surface-container-low">
         <div className="max-w-5xl mx-auto">
           <motion.div 
@@ -624,7 +624,7 @@ const Landing = () => {
             className="text-center mb-12"
           >
             <h2 className="text-2xl sm:text-4xl font-black font-headline text-on-surface">
-              Why Academic Leaders Switch to Evalify AI
+              Why Academic Leaders Switch to AutoGrade AI
             </h2>
             <p className="text-on-surface-variant text-sm sm:text-base mt-2">
               Transform grading from a grueling bottleneck into an instantaneous, data-rich feedback loop.
@@ -665,7 +665,7 @@ const Landing = () => {
               </ul>
             </motion.div>
 
-            {/* Evalify AI */}
+            {/* AutoGrade AI */}
             <motion.div 
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -676,7 +676,7 @@ const Landing = () => {
             >
               <div className="flex items-center gap-2 text-primary font-headline font-black text-lg mb-4">
                 <span className="material-symbols-outlined font-variation-fill">check_circle</span>
-                Evalify AI Platform
+                AutoGrade AI Platform
               </div>
               <ul className="space-y-3 text-sm text-on-surface">
                 <li className="flex items-start gap-2">
@@ -1037,7 +1037,7 @@ const Landing = () => {
 
         <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-outline-variant/40 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-outline">
           <p className="uppercase tracking-widest font-black">Empowering the academic edge.</p>
-          <p>© 2026 Evalify AI • All rights reserved</p>
+          <p>© 2026 AutoGrade AI • All rights reserved</p>
         </div>
       </footer>
     </div>
