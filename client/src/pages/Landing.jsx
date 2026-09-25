@@ -34,7 +34,7 @@ const Landing = () => {
 
   const handleWatchDemo = () => {
     addToast('Opening video player...', 'info');
-    window.open('https://youtu.be/56mqlTIf8Bs?si=H_yLagiFjVqRWUce', '_blank', 'noopener,noreferrer');
+    window.open('https://youtu.be/dyOc-GhPKJc', '_blank', 'noopener,noreferrer');
   };
 
   const scrollToPricing = () => {

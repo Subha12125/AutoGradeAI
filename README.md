@@ -43,7 +43,7 @@
 
 <br/><br/>
 
-🌐 **Live Demo**: [https://evalify-ai-tawny.vercel.app](https://evalify-ai-tawny.vercel.app) &nbsp;•&nbsp; ⚡ **API Service**: [https://autogradeai-8xtf.onrender.com](https://autogradeai-8xtf.onrender.com)
+🌐 **Live Demo**: [https://evalify-ai-tawny.vercel.app](https://evalify-ai-tawny.vercel.app) &nbsp;•&nbsp; 🎬 **Demo Video**: [https://youtu.be/dyOc-GhPKJc](https://youtu.be/dyOc-GhPKJc) &nbsp;•&nbsp; ⚡ **API Service**: [https://autogradeai-8xtf.onrender.com](https://autogradeai-8xtf.onrender.com)
 
 </div>
 
