@@ -106,4 +106,41 @@ function authorize(...roles) {
   };
 }
 
-module.exports = { authenticate, authorize };
+/**
+ * Optional authentication middleware - attaches req.user if valid token provided, but does not block if absent.
+ */
+async function optionalAuth(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    let token;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.split(' ')[1];
+    } else if (req.query && req.query.token) {
+      token = req.query.token;
+    }
+
+    if (!token) return next();
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const userId = decoded.userId || decoded.id;
+    if (userId) {
+      const cached = userCache.get(userId);
+      if (cached && cached.expiresAt > Date.now()) {
+        req.user = cached.user;
+      } else {
+        const { data: user } = await supabase.from('users').select('id, email, name, role').eq('id', userId).maybeSingle();
+        if (user) {
+          userCache.set(userId, { user, expiresAt: Date.now() + CACHE_TTL_MS });
+          req.user = user;
+        } else if (decoded.email) {
+          req.user = { id: userId, email: decoded.email, name: decoded.name || 'User', role: decoded.role || 'student' };
+        }
+      }
+    }
+  } catch {
+    // Ignore invalid tokens in optional auth
+  }
+  next();
+}
+
+module.exports = { authenticate, authorize, optionalAuth };

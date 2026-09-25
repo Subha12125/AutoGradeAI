@@ -39,4 +39,20 @@ describe('Navbar Integration', () => {
     fireEvent.click(exportButton);
     expect(screen.getByText('Generating export file...')).toBeInTheDocument();
   });
+
+  it('triggers onMenuClick when mobile menu button is clicked', () => {
+    const handleMenuClick = vi.fn();
+    render(
+      <BrowserRouter>
+        <ToastProvider>
+          <Navbar onMenuClick={handleMenuClick} />
+        </ToastProvider>
+      </BrowserRouter>
+    );
+
+    const menuButton = screen.getByLabelText('Open menu');
+    expect(menuButton).toBeInTheDocument();
+    fireEvent.click(menuButton);
+    expect(handleMenuClick).toHaveBeenCalledTimes(1);
+  });
 });

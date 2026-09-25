@@ -35,7 +35,8 @@ function errorHandler(err, req, res, next) {
   // Default server error
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
-    error: statusCode === 500 ? 'Internal server error' : err.message,
+    error: err.message || (statusCode === 500 ? 'Internal server error' : 'Request failed'),
+    message: err.message,
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
   });
 }

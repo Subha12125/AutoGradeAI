@@ -18,6 +18,16 @@ import Support from '../pages/Support';
 import NotFound from '../pages/NotFound';
 import Layout from '../components/layout/Layout';
 
+// AI Quiz Arena Pages
+import TeacherQuizzes from '../pages/teacher/TeacherQuizzes';
+import CreateQuiz from '../pages/teacher/CreateQuiz';
+import EditQuiz from '../pages/teacher/EditQuiz';
+import HostArena from '../pages/teacher/HostArena';
+import QuizResults from '../pages/teacher/QuizResults';
+import StudentJoin from '../pages/student/StudentJoin';
+import StudentArena from '../pages/student/StudentArena';
+import StudentResult from '../pages/student/StudentResult';
+
 // Guard for protected faculty portal routes
 const ProtectedLayout = () => {
   const token = localStorage.getItem('auth_token') || localStorage.getItem('token');
@@ -88,7 +98,30 @@ export const router = createBrowserRouter([
       { path: '/settings', element: <Settings /> },
       { path: '/analytics', element: <Analytics /> },
       { path: '/evaluation-progress', element: <EvaluationProgress /> },
+      // AI Quiz Arena Teacher Routes
+      { path: '/teacher/quizzes', element: <TeacherQuizzes /> },
+      { path: '/teacher/quizzes/create', element: <CreateQuiz /> },
+      { path: '/teacher/quizzes/:id/edit', element: <EditQuiz /> },
+      { path: '/teacher/quizzes/:id/host', element: <HostArena /> },
+      { path: '/teacher/quizzes/:id/results', element: <QuizResults /> },
     ],
+  },
+  // Student Mobile-First Quiz Arena Routes (Public / Guest)
+  {
+    path: '/join/:code',
+    element: <StudentJoin />,
+  },
+  {
+    path: '/join',
+    element: <StudentJoin />,
+  },
+  {
+    path: '/quiz/:sessionId',
+    element: <StudentArena />,
+  },
+  {
+    path: '/quiz/:sessionId/result',
+    element: <StudentResult />,
   },
   {
     path: '*',

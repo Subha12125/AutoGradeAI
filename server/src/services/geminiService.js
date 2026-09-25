@@ -202,6 +202,28 @@ const GeminiService = {
   async extractQuestions(images, prompt) {
     return this.evaluate(prompt, images);
   },
+
+  /**
+   * Send text prompt to Gemini and receive strict structured JSON.
+   * @param {string} prompt - The prompt text requesting structured JSON
+   * @returns {Promise<any>} Parsed JSON response
+   */
+  async generateJSON(prompt) {
+    const raw = await this.evaluate(prompt, []);
+    try {
+      // Clean any accidental markdown code fences if present
+      let cleaned = raw.trim();
+      if (cleaned.startsWith('```json')) {
+        cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleaned.startsWith('```')) {
+        cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      return JSON.parse(cleaned);
+    } catch (parseErr) {
+      logger.error('Failed to parse Gemini JSON output', { raw: raw.substring(0, 300), error: parseErr.message });
+      throw new Error(`Invalid JSON returned by AI: ${parseErr.message}`);
+    }
+  },
 };
 
 module.exports = GeminiService;

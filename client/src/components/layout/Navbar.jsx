@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useToast } from '../../context/ToastContext';
 
-const Navbar = ({ onMenuClick }) => {
+const Navbar = ({ onMenuClick, isCollapsed = false, onToggleCollapse }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { addToast } = useToast();
@@ -37,11 +37,13 @@ const Navbar = ({ onMenuClick }) => {
   };
 
   return (
-    <header className="fixed top-0 right-0 w-full lg:w-[calc(100%-16rem)] z-40 flex justify-between items-center px-3 sm:px-4 md:px-8 py-2.5 sm:py-3 bg-surface/80 backdrop-blur-xl font-headline text-sm transition-all duration-300">
+    <header className={`fixed top-0 right-0 w-full ${isCollapsed ? 'lg:w-[calc(100%-5rem)]' : 'lg:w-[calc(100%-16rem)]'} z-40 flex justify-between items-center px-3 sm:px-4 md:px-8 py-2.5 sm:py-3 bg-surface/80 backdrop-blur-xl font-headline text-sm transition-all duration-300`}>
       <div className="flex items-center gap-3 sm:gap-4 md:gap-8 min-w-0">
         <button
-          className="lg:hidden p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors flex-shrink-0"
+          className="lg:hidden p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high rounded-lg transition-colors flex-shrink-0 cursor-pointer"
           onClick={onMenuClick}
+          title="Open menu"
+          aria-label="Open menu"
         >
           <i className="ri-menu-line text-lg" />
         </button>

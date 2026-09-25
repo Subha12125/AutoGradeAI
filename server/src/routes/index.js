@@ -5,6 +5,8 @@ const evaluateRoutes = require('./evaluate.routes');
 const resultsRoutes = require('./results.routes');
 const quotaRoutes = require('./quota.routes');
 const analyticsRoutes = require('./analytics.routes');
+const quizRoutes = require('./quiz.routes');
+const sessionRoutes = require('./session.routes');
 const GeminiService = require('../services/geminiService');
 const ExamModel = require('../models/exam.model');
 const logger = require('../utils/logger');
@@ -17,6 +19,8 @@ router.use('/evaluate', evaluateRoutes);
 router.use('/results', resultsRoutes);
 router.use('/quota', quotaRoutes);
 router.use('/analytics', analyticsRoutes);
+router.use('/quizzes', quizRoutes);
+router.use('/sessions', sessionRoutes);
 
 // Health check
 router.get('/health', (req, res) => {
