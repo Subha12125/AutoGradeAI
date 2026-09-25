@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
 const Footer = () => {
@@ -13,10 +14,10 @@ const Footer = () => {
         </div>
         
         <div className="flex flex-wrap justify-center gap-4 sm:gap-8 text-[10px] font-bold uppercase tracking-widest text-outline">
-          <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-          <a href="#" className="hover:text-primary transition-colors">Help Center</a>
-          <a href="#" className="hover:text-primary transition-colors">Contact Support</a>
+          <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+          <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+          <Link to="/support" className="hover:text-primary transition-colors">Help Center</Link>
+          <Link to="/support" className="hover:text-primary transition-colors">Contact Support</Link>
         </div>
         
         <p className="text-[10px] font-bold text-outline-variant uppercase tracking-widest text-center">

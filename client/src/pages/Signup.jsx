@@ -153,9 +153,12 @@ const Signup = () => {
           </form>
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center space-y-2">
           <p className="text-xs text-on-surface-variant">
             Already have an ID and password? <Link to="/login" className="text-primary font-bold hover:underline">Log In</Link>
+          </p>
+          <p className="text-[11px] text-slate-400">
+            By creating an account, you agree to our <Link to="/terms" className="text-slate-600 font-semibold hover:underline">Terms of Service</Link> and <Link to="/privacy" className="text-slate-600 font-semibold hover:underline">Privacy Policy</Link>.
           </p>
         </div>
       </main>

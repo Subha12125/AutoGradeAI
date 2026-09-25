@@ -1028,10 +1028,9 @@ const Landing = () => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-6 text-xs font-semibold text-on-surface-variant">
-            <button onClick={() => navigate('/dashboard')} className="hover:text-primary transition-colors">Dashboard</button>
-            <button onClick={() => navigate('/create-exam')} className="hover:text-primary transition-colors">Create Exam</button>
-            <button onClick={() => navigate('/pricing')} className="hover:text-primary transition-colors">Pricing</button>
-            <button onClick={() => navigate('/analytics')} className="hover:text-primary transition-colors">Analytics</button>
+            <button onClick={() => navigate('/privacy')} className="hover:text-primary transition-colors">Privacy</button>
+            <button onClick={() => navigate('/terms')} className="hover:text-primary transition-colors">Terms</button>
+            <button onClick={() => navigate('/support')} className="hover:text-primary transition-colors">Support</button>
           </div>
         </div>
 

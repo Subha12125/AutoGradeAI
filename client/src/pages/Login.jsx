@@ -133,9 +133,12 @@ const Login = () => {
           </form>
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center space-y-2">
           <p className="text-xs text-on-surface-variant">
             New to AutoGrade? <Link to="/signup" className="text-primary font-bold hover:underline">Create Account</Link>
+          </p>
+          <p className="text-[11px] text-slate-400">
+            Need help? <Link to="/support" className="text-slate-600 font-semibold hover:underline">Contact Support</Link> • <Link to="/privacy" className="text-slate-600 font-semibold hover:underline">Privacy</Link> • <Link to="/terms" className="text-slate-600 font-semibold hover:underline">Terms</Link>
           </p>
         </div>
       </main>

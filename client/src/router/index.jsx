@@ -12,6 +12,9 @@ import PublicPricing from '../pages/PublicPricing';
 import EvaluationProgress from '../pages/EvaluationProgress';
 import ExamDetail from '../pages/ExamDetail';
 import Analytics from '../pages/Analytics';
+import Privacy from '../pages/Privacy';
+import Terms from '../pages/Terms';
+import Support from '../pages/Support';
 import NotFound from '../pages/NotFound';
 import Layout from '../components/layout/Layout';
 
@@ -45,6 +48,26 @@ export const router = createBrowserRouter([
   {
     path: '/pricing',
     element: <SmartPricing />,
+  },
+  {
+    path: '/privacy',
+    element: <Privacy />,
+  },
+  {
+    path: '/terms',
+    element: <Terms />,
+  },
+  {
+    path: '/support',
+    element: <Support />,
+  },
+  {
+    path: '/help',
+    element: <Navigate to="/support" replace />,
+  },
+  {
+    path: '/contact',
+    element: <Navigate to="/support" replace />,
   },
   {
     path: '/login',

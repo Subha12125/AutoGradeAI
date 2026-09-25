@@ -336,9 +336,11 @@ const PublicPricing = () => {
 
           <div className="flex flex-wrap justify-center gap-6 text-xs font-semibold text-on-surface-variant">
             <button onClick={() => navigate('/')} className="hover:text-primary transition-colors">Home</button>
+            <button onClick={() => navigate('/privacy')} className="hover:text-primary transition-colors">Privacy</button>
+            <button onClick={() => navigate('/terms')} className="hover:text-primary transition-colors">Terms</button>
+            <button onClick={() => navigate('/support')} className="hover:text-primary transition-colors">Support</button>
             <button onClick={() => navigate('/login')} className="hover:text-primary transition-colors">Log In</button>
             <button onClick={() => navigate('/signup')} className="hover:text-primary transition-colors">Sign Up</button>
-            <button onClick={() => navigate('/pricing')} className="text-primary font-bold">Pricing</button>
           </div>
         </div>
 

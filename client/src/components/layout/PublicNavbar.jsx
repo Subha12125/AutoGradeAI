@@ -109,6 +109,19 @@ const PublicNavbar = ({ onPricingClick }) => {
           >
             Pricing
           </button>
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              navigate('/support');
+            }}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+              location.pathname === '/support'
+                ? 'bg-primary text-white shadow-sm shadow-primary/30'
+                : 'text-slate-700 hover:text-primary hover:bg-white/80 active:scale-95'
+            }`}
+          >
+            Support
+          </button>
         </div>
 
         {/* Right Action Buttons */}
@@ -176,6 +189,16 @@ const PublicNavbar = ({ onPricingClick }) => {
               className="w-full text-left px-4 py-2.5 rounded-2xl text-sm font-semibold text-slate-800 hover:bg-primary/10 hover:text-primary transition-colors flex items-center justify-between"
             >
               <span>Pricing</span>
+              <i className="ri-arrow-right-s-line text-slate-400" />
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigate('/support');
+              }}
+              className="w-full text-left px-4 py-2.5 rounded-2xl text-sm font-semibold text-slate-800 hover:bg-primary/10 hover:text-primary transition-colors flex items-center justify-between"
+            >
+              <span>Support</span>
               <i className="ri-arrow-right-s-line text-slate-400" />
             </button>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { useToast } from '../../context/ToastContext';
@@ -8,6 +8,7 @@ const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWarmingUp, setIsWarmingUp] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { addToast } = useToast();
 
   useEffect(() => {
@@ -18,9 +19,9 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener('backend-cold-start', handleColdStart);
   }, []);
 
-  const handleLinkClick = (e, name) => {
+  const handleLinkClick = (e, path) => {
     e.preventDefault();
-    addToast(`Opening ${name} page...`, 'info');
+    navigate(path);
   };
 
   return (
@@ -51,9 +52,9 @@ const Layout = ({ children }) => {
           <div className="px-4 sm:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-[10px] text-outline font-bold uppercase tracking-widest">© 2026 AutoGrade Ai • All rights reserved</p>
             <div className="flex gap-6">
-              <button onClick={(e) => handleLinkClick(e, 'Privacy Policy')} className="text-[10px] text-outline hover:text-primary font-bold uppercase tracking-widest transition-colors">Privacy</button>
-              <button onClick={(e) => handleLinkClick(e, 'Terms of Service')} className="text-[10px] text-outline hover:text-primary font-bold uppercase tracking-widest transition-colors">Terms</button>
-              <button onClick={(e) => handleLinkClick(e, 'Support')} className="text-[10px] text-outline hover:text-primary font-bold uppercase tracking-widest transition-colors">Support</button>
+              <button onClick={(e) => handleLinkClick(e, '/privacy')} className="text-[10px] text-outline hover:text-primary font-bold uppercase tracking-widest transition-colors cursor-pointer">Privacy</button>
+              <button onClick={(e) => handleLinkClick(e, '/terms')} className="text-[10px] text-outline hover:text-primary font-bold uppercase tracking-widest transition-colors cursor-pointer">Terms</button>
+              <button onClick={(e) => handleLinkClick(e, '/support')} className="text-[10px] text-outline hover:text-primary font-bold uppercase tracking-widest transition-colors cursor-pointer">Support</button>
             </div>
           </div>
         </footer>
